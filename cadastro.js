@@ -91,7 +91,7 @@ async function iniciarCadastro() {
         try {
 
             const { data, error } =
-                await supabase.auth.signUp({
+                await supabaseClient.auth.signUp({
 
                     email: email,
 
