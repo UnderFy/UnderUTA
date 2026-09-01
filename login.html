@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Entre ou crie sua conta no UnderUTA."
+    >
+
+    <title>Entrar — UnderUTA</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-container">
+
+        <a href="index.html" class="auth-logo">
+            UnderUTA
+        </a>
+
+        <div class="auth-box">
+
+            <div class="auth-header">
+
+                <span class="section-label">
+                    BEM-VINDO
+                </span>
+
+                <h1>
+                    Entre no UnderUTA.
+                </h1>
+
+                <p>
+                    Acesse sua conta ou crie uma nova
+                    para começar.
+                </p>
+
+            </div>
+
+
+            <!-- ESCOLHA DO TIPO DE CONTA -->
+
+            <div class="account-types">
+
+                <button
+                    type="button"
+                    class="account-type active"
+                    data-type="ouvinte"
+                >
+
+                    <span class="account-icon">
+                        🎧
+                    </span>
+
+                    <span>
+                        <strong>Sou ouvinte</strong>
+                        <small>
+                            Quero descobrir músicas e artistas.
+                        </small>
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="account-type"
+                    data-type="artista"
+                >
+
+                    <span class="account-icon">
+                        🎤
+                    </span>
+
+                    <span>
+                        <strong>Sou artista</strong>
+                        <small>
+                            Quero publicar minhas músicas.
+                        </small>
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- FORMULÁRIO -->
+
+            <form id="login-form">
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="seu@email.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    placeholder="Sua senha"
+                    autocomplete="current-password"
+                    required
+                >
+
+
+                <div class="form-options">
+
+                    <label class="remember">
+                        <input
+                            type="checkbox"
+                            id="lembrar"
+                        >
+
+                        <span>
+                            Lembrar de mim
+                        </span>
+                    </label>
+
+                    <a href="#">
+                        Esqueci minha senha
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Entrar
+                </button>
+
+            </form>
+
+
+            <div class="auth-divider">
+                <span>ou</span>
+            </div>
+
+
+            <button
+                type="button"
+                class="google-button"
+            >
+                Continuar com Google
+            </button>
+
+
+            <p class="auth-register">
+                Ainda não tem uma conta?
+                <a href="#">
+                    Criar conta
+                </a>
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <script src="auth.js"></script>
+
+</body>
+
+</html>
