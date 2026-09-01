@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>UnderUTA — Artista</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="artist-header">
+
+        <div class="artist-logo">
+            UnderUTA
+        </div>
+
+        <button id="logout-btn">
+            Sair
+        </button>
+
+    </header>
+
+
+    <main class="artist-dashboard">
+
+        <section class="artist-welcome">
+
+            <span class="section-label">
+                ÁREA DO ARTISTA
+            </span>
+
+            <h1>
+                Seu espaço.
+                <br>
+                Sua música.
+            </h1>
+
+            <p id="artist-name">
+                Carregando seu perfil...
+            </p>
+
+        </section>
+
+
+        <section class="artist-actions">
+
+            <a href="#" class="artist-card">
+
+                <div class="artist-card-icon">
+                    🎵
+                </div>
+
+                <div>
+                    <h2>
+                        Lançar música
+                    </h2>
+
+                    <p>
+                        Publique uma nova música no UnderUTA.
+                    </p>
+                </div>
+
+            </a>
+
+
+            <a href="#" class="artist-card">
+
+                <div class="artist-card-icon">
+                    📖
+                </div>
+
+                <div>
+                    <h2>
+                        Criar Story
+                    </h2>
+
+                    <p>
+                        Compartilhe momentos com seus ouvintes.
+                    </p>
+                </div>
+
+            </a>
+
+
+            <a href="#" class="artist-card">
+
+                <div class="artist-card-icon">
+                    ✍️
+                </div>
+
+                <div>
+                    <h2>
+                        Publicar texto
+                    </h2>
+
+                    <p>
+                        Escreva e converse com sua comunidade.
+                    </p>
+                </div>
+
+            </a>
+
+        </section>
+
+
+        <section class="artist-releases">
+
+            <span class="section-label">
+                SEUS LANÇAMENTOS
+            </span>
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🎧
+                </div>
+
+                <h2>
+                    Nenhuma música ainda
+                </h2>
+
+                <p>
+                    Quando você lançar sua primeira música,
+                    ela aparecerá aqui.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="supabase.js?v=2"></script>
+
+    <script src="artista.js?v=1"></script>
+
+</body>
+
+</html>
