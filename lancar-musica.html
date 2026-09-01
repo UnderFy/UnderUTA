@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Lançar música — UnderUTA</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="topbar">
+        <a href="artista.html" class="logo">UnderUTA</a>
+
+        <a href="artista.html" class="back-button">
+            ← Voltar
+        </a>
+    </header>
+
+    <main class="release-page">
+
+        <section class="release-header">
+            <span class="eyebrow">NOVO LANÇAMENTO</span>
+
+            <h1>Lance sua música.</h1>
+
+            <p>
+                Publique sua música no UnderUTA e compartilhe
+                seu trabalho com seus ouvintes.
+            </p>
+        </section>
+
+        <form id="music-form" class="release-form">
+
+            <div class="form-group">
+                <label for="nome">Nome da música</label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="Ex: Minha nova música"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">Descrição</label>
+
+                <textarea
+                    id="descricao"
+                    name="descricao"
+                    placeholder="Conte um pouco sobre essa música..."
+                    rows="5"
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="capa">Capa da música</label>
+
+                <input
+                    type="file"
+                    id="capa"
+                    name="capa"
+                    accept="image/*"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="audio">Arquivo da música</label>
+
+                <input
+                    type="file"
+                    id="audio"
+                    name="audio"
+                    accept="audio/*"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="release-button">
+                Lançar música
+            </button>
+
+        </form>
+
+    </main>
+
+    <script>
+        const form = document.getElementById("music-form");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            alert("Formulário funcionando! 🚀");
+        });
+    </script>
+
+</body>
+</html>
