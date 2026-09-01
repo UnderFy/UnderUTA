@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     iniciarTipoDeConta();
     iniciarCadastro();
-
 });
 
 
@@ -25,8 +23,6 @@ function iniciarTipoDeConta() {
 
             tipoDeConta = botao.dataset.type;
 
-            console.log("Tipo de conta:", tipoDeConta);
-
         });
 
     });
@@ -34,7 +30,7 @@ function iniciarTipoDeConta() {
 }
 
 
-function iniciarCadastro() {
+async function iniciarCadastro() {
 
     const formulario = document.querySelector("#register-form");
 
@@ -42,18 +38,24 @@ function iniciarCadastro() {
         return;
     }
 
-    formulario.addEventListener("submit", (event) => {
+    formulario.addEventListener("submit", async (event) => {
 
         event.preventDefault();
+
 
         const nome =
             document.querySelector("#nome").value.trim();
 
         const username =
-            document.querySelector("#username").value.trim();
+            document.querySelector("#username").value
+                .trim()
+                .toLowerCase()
+                .replace(/^@/, "");
 
         const email =
-            document.querySelector("#email").value.trim();
+            document.querySelector("#email").value
+                .trim()
+                .toLowerCase();
 
         const senha =
             document.querySelector("#senha").value;
@@ -78,21 +80,71 @@ function iniciarCadastro() {
         }
 
 
-        const usuario = {
-
-            nome,
-            username,
-            email,
-            tipo: tipoDeConta
-
-        };
+        const botao =
+            formulario.querySelector(".auth-submit");
 
 
-        console.log("Novo usuário:", usuario);
+        botao.disabled = true;
+        botao.textContent = "Criando conta...";
 
-        alert(
-            `Cadastro de ${tipoDeConta} preparado.`
-        );
+
+        try {
+
+            const { data, error } =
+                await supabase.auth.signUp({
+
+                    email: email,
+
+                    password: senha,
+
+                    options: {
+
+                        data: {
+                            nome: nome,
+                            username: username,
+                            tipo: tipoDeConta
+                        },
+
+                        emailRedirectTo:
+                            "https://underfy.github.io/UnderUTA/login.html"
+
+                    }
+
+                });
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            console.log("Usuário criado:", data);
+
+
+            alert(
+                "Conta criada! Verifique seu e-mail para confirmar o cadastro."
+            );
+
+
+            window.location.href = "login.html";
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            alert(
+                "Não foi possível criar a conta: " +
+                error.message
+            );
+
+
+        } finally {
+
+            botao.disabled = false;
+            botao.textContent = "Criar minha conta";
+
+        }
 
     });
 
