@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Crie sua conta no UnderUTA."
+    >
+
+    <title>Criar conta — UnderUTA</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+
+    <main class="auth-container">
+
+        <a href="index.html" class="auth-logo">
+            UnderUTA
+        </a>
+
+        <div class="auth-box">
+
+            <div class="auth-header">
+
+                <span class="section-label">
+                    CRIAR CONTA
+                </span>
+
+                <h1>
+                    Faça parte do UnderUTA.
+                </h1>
+
+                <p>
+                    Escolha como você quer usar a plataforma.
+                </p>
+
+            </div>
+
+
+            <!-- TIPO DE CONTA -->
+
+            <div class="account-types">
+
+                <button
+                    type="button"
+                    class="account-type active"
+                    data-type="ouvinte"
+                >
+
+                    <span class="account-icon">
+                        🎧
+                    </span>
+
+                    <span>
+                        <strong>Ouvinte</strong>
+
+                        <small>
+                            Descobrir músicas e acompanhar artistas.
+                        </small>
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="account-type"
+                    data-type="artista"
+                >
+
+                    <span class="account-icon">
+                        🎤
+                    </span>
+
+                    <span>
+                        <strong>Artista</strong>
+
+                        <small>
+                            Publicar músicas e construir sua comunidade.
+                        </small>
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <!-- FORMULÁRIO -->
+
+            <form id="register-form">
+
+                <label for="nome">
+                    Nome
+                </label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    name="nome"
+                    placeholder="Seu nome"
+                    autocomplete="name"
+                    required
+                >
+
+
+                <label for="username">
+                    Nome de usuário
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="@seuusuario"
+                    autocomplete="username"
+                    required
+                >
+
+
+                <label for="email">
+                    E-mail
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="seu@email.com"
+                    autocomplete="email"
+                    required
+                >
+
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    placeholder="Mínimo de 8 caracteres"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <label for="confirmar-senha">
+                    Confirmar senha
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmar-senha"
+                    name="confirmar-senha"
+                    placeholder="Digite a senha novamente"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Criar minha conta
+                </button>
+
+            </form>
+
+
+            <p class="auth-register">
+
+                Já possui uma conta?
+
+                <a href="login.html">
+                    Entrar
+                </a>
+
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <script src="cadastro.js"></script>
+
+</body>
+
+</html>
