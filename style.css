@@ -787,3 +787,315 @@ button {
     }
 
 }
+
+/* =========================================
+   AUTENTICAÇÃO
+   ========================================= */
+
+.auth-page {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 20px;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 460px;
+}
+
+.auth-logo {
+    display: block;
+
+    margin-bottom: 35px;
+
+    text-align: center;
+
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1.5px;
+}
+
+.auth-box {
+    padding: 35px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+}
+
+.auth-header {
+    margin-bottom: 30px;
+}
+
+.auth-header .section-label {
+    margin-bottom: 12px;
+}
+
+.auth-header h1 {
+    margin-bottom: 10px;
+
+    font-size: 32px;
+    line-height: 1;
+
+    letter-spacing: -2px;
+}
+
+.auth-header p {
+    color: var(--muted);
+
+    font-size: 14px;
+}
+
+
+/* TIPOS DE CONTA */
+
+.account-types {
+    display: grid;
+
+    gap: 10px;
+
+    margin-bottom: 28px;
+}
+
+.account-type {
+    width: 100%;
+
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    background: transparent;
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.account-type:hover,
+.account-type.active {
+    background: var(--surface-2);
+
+    border-color: #555;
+}
+
+.account-icon {
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--bg);
+
+    border-radius: 8px;
+}
+
+.account-type strong {
+    display: block;
+
+    margin-bottom: 2px;
+
+    font-size: 14px;
+}
+
+.account-type small {
+    display: block;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* FORMULÁRIO */
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form > label {
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#login-form input[type="email"],
+#login-form input[type="password"] {
+    width: 100%;
+
+    margin-bottom: 18px;
+
+    padding: 13px 14px;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+}
+
+#login-form input:focus {
+    border-color: #666;
+}
+
+.form-options {
+    margin: 0 0 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    font-size: 11px;
+}
+
+.form-options a {
+    color: var(--muted);
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--muted);
+
+    cursor: pointer;
+}
+
+.auth-submit {
+    width: 100%;
+
+    padding: 14px;
+
+    background: var(--text);
+    color: var(--bg);
+
+    border: 0;
+    border-radius: 8px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.auth-submit:hover {
+    opacity: 0.85;
+}
+
+
+/* DIVISOR */
+
+.auth-divider {
+    margin: 25px 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+
+    height: 1px;
+
+    flex: 1;
+
+    background: var(--border);
+}
+
+
+/* GOOGLE */
+
+.google-button {
+    width: 100%;
+
+    padding: 13px;
+
+    background: transparent;
+
+    color: var(--text);
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.google-button:hover {
+    background: var(--surface-2);
+}
+
+
+/* CADASTRO */
+
+.auth-register {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 12px;
+}
+
+.auth-register a {
+    color: var(--text);
+
+    font-weight: 700;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 500px) {
+
+    .auth-page {
+        padding: 20px 15px;
+    }
+
+    .auth-box {
+        padding: 25px 20px;
+    }
+
+    .auth-header h1 {
+        font-size: 28px;
+    }
+
+}
