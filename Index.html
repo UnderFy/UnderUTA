@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
 
@@ -10,7 +11,7 @@
 
     <meta
         name="description"
-        content="UnderUTA — música, artistas e histórias."
+        content="UnderUTA — descubra músicas, artistas, Stories e muito mais."
     >
 
     <title>UnderUTA</title>
@@ -20,99 +21,501 @@
 
 <body>
 
-    <header>
-        <nav>
-            <a href="/" aria-label="UnderUTA">
+    <!-- ==============================
+         CABEÇALHO
+    =============================== -->
+
+    <header class="header">
+
+        <nav class="navbar">
+
+            <a href="#" class="logo">
                 UnderUTA
             </a>
 
-            <div>
-                <a href="#explorar">Explorar</a>
-                <a href="#artistas">Artistas</a>
-                <a href="#entrar">Entrar</a>
+            <div class="nav-links">
+
+                <a href="#musicas">
+                    Músicas
+                </a>
+
+                <a href="#artistas">
+                    Artistas
+                </a>
+
+                <a href="#stories">
+                    Stories
+                </a>
+
             </div>
+
+            <div class="nav-actions">
+
+                <a href="#" class="login">
+                    Entrar
+                </a>
+
+                <a href="#" class="btn-primary">
+                    Criar conta
+                </a>
+
+            </div>
+
         </nav>
+
     </header>
+
 
     <main>
 
-        <section id="inicio">
-            <div>
-                <p>UNDERUTA</p>
+        <!-- ==============================
+             HERO
+        =============================== -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <span class="eyebrow">
+                    A NOVA CASA DA MÚSICA INDEPENDENTE
+                </span>
 
                 <h1>
-                    Música independente,
-                    do seu jeito.
+                    Sua música.
+                    <br>
+                    Sua história.
+                    <br>
+                    <span>Seu espaço.</span>
                 </h1>
 
                 <p>
-                    Descubra artistas, acompanhe lançamentos,
-                    histórias e tudo o que acontece por trás
-                    da música.
+                    Descubra novos artistas, acompanhe lançamentos,
+                    veja Stories e faça parte da comunidade UnderUTA.
                 </p>
 
-                <div>
-                    <a href="#explorar">
+                <div class="hero-actions">
+
+                    <a href="#musicas" class="btn-primary">
                         Explorar músicas
                     </a>
 
-                    <a href="#artistas">
-                        Sou artista
+                    <a href="#artistas" class="btn-secondary">
+                        Descobrir artistas
                     </a>
+
                 </div>
+
             </div>
+
         </section>
 
-        <section id="explorar">
-            <h2>Explore o UnderUTA</h2>
+
+        <!-- ==============================
+             STORIES
+        =============================== -->
+
+        <section id="stories" class="section">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="section-label">
+                        STORIES
+                    </span>
+
+                    <h2>
+                        O que está acontecendo?
+                    </h2>
+                </div>
+
+                <a href="#" class="see-more">
+                    Ver todos →
+                </a>
+
+            </div>
+
+
+            <div class="stories">
+
+                <article class="story story-add">
+
+                    <div class="story-avatar">
+                        +
+                    </div>
+
+                    <span>
+                        Seu Story
+                    </span>
+
+                </article>
+
+
+                <article class="story">
+
+                    <div class="story-avatar">
+                        U
+                    </div>
+
+                    <span>
+                        Artista 01
+                    </span>
+
+                </article>
+
+
+                <article class="story">
+
+                    <div class="story-avatar">
+                        A
+                    </div>
+
+                    <span>
+                        Artista 02
+                    </span>
+
+                </article>
+
+
+                <article class="story">
+
+                    <div class="story-avatar">
+                        M
+                    </div>
+
+                    <span>
+                        Artista 03
+                    </span>
+
+                </article>
+
+
+                <article class="story">
+
+                    <div class="story-avatar">
+                        K
+                    </div>
+
+                    <span>
+                        Artista 04
+                    </span>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             MÚSICAS
+        =============================== -->
+
+        <section id="musicas" class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        MÚSICAS
+                    </span>
+
+                    <h2>
+                        Descubra novos sons
+                    </h2>
+
+                </div>
+
+                <a href="#" class="see-more">
+                    Ver todas →
+                </a>
+
+            </div>
+
+
+            <div class="music-grid">
+
+                <article class="music-card">
+
+                    <div class="cover">
+                        <span>01</span>
+                    </div>
+
+                    <div class="music-info">
+
+                        <div>
+                            <h3>
+                                Primeiro Lançamento
+                            </h3>
+
+                            <p>
+                                Artista UnderUTA
+                            </p>
+                        </div>
+
+                        <button
+                            class="play-button"
+                            aria-label="Reproduzir música"
+                        >
+                            ▶
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <article class="music-card">
+
+                    <div class="cover">
+                        <span>02</span>
+                    </div>
+
+                    <div class="music-info">
+
+                        <div>
+                            <h3>
+                                Novo Caminho
+                            </h3>
+
+                            <p>
+                                Artista UnderUTA
+                            </p>
+                        </div>
+
+                        <button
+                            class="play-button"
+                            aria-label="Reproduzir música"
+                        >
+                            ▶
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <article class="music-card">
+
+                    <div class="cover">
+                        <span>03</span>
+                    </div>
+
+                    <div class="music-info">
+
+                        <div>
+                            <h3>
+                                Sem Limites
+                            </h3>
+
+                            <p>
+                                Artista UnderUTA
+                            </p>
+                        </div>
+
+                        <button
+                            class="play-button"
+                            aria-label="Reproduzir música"
+                        >
+                            ▶
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <article class="music-card">
+
+                    <div class="cover">
+                        <span>04</span>
+                    </div>
+
+                    <div class="music-info">
+
+                        <div>
+                            <h3>
+                                Depois da Meia-Noite
+                            </h3>
+
+                            <p>
+                                Artista UnderUTA
+                            </p>
+                        </div>
+
+                        <button
+                            class="play-button"
+                            aria-label="Reproduzir música"
+                        >
+                            ▶
+                        </button>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             ARTISTAS
+        =============================== -->
+
+        <section id="artistas" class="section">
+
+            <div class="section-header">
+
+                <div>
+
+                    <span class="section-label">
+                        ARTISTAS
+                    </span>
+
+                    <h2>
+                        Quem está criando
+                    </h2>
+
+                </div>
+
+                <a href="#" class="see-more">
+                    Ver todos →
+                </a>
+
+            </div>
+
+
+            <div class="artists-grid">
+
+                <article class="artist-card">
+
+                    <div class="artist-avatar">
+                        U
+                    </div>
+
+                    <h3>
+                        Artista UnderUTA
+                    </h3>
+
+                    <p>
+                        @artista01
+                    </p>
+
+                    <a href="#">
+                        Ver perfil
+                    </a>
+
+                </article>
+
+
+                <article class="artist-card">
+
+                    <div class="artist-avatar">
+                        A
+                    </div>
+
+                    <h3>
+                        Artista UnderUTA
+                    </h3>
+
+                    <p>
+                        @artista02
+                    </p>
+
+                    <a href="#">
+                        Ver perfil
+                    </a>
+
+                </article>
+
+
+                <article class="artist-card">
+
+                    <div class="artist-avatar">
+                        M
+                    </div>
+
+                    <h3>
+                        Artista UnderUTA
+                    </h3>
+
+                    <p>
+                        @artista03
+                    </p>
+
+                    <a href="#">
+                        Ver perfil
+                    </a>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ==============================
+             ÁREA PARA ARTISTAS
+        =============================== -->
+
+        <section class="artist-banner">
 
             <div>
-                <article>
-                    <h3>🎵 Músicas</h3>
-                    <p>
-                        Descubra novos sons e acompanhe
-                        seus artistas favoritos.
-                    </p>
-                </article>
 
-                <article>
-                    <h3>📱 Stories</h3>
-                    <p>
-                        Veja os momentos e novidades
-                        compartilhados pelos artistas.
-                    </p>
-                </article>
+                <span class="section-label">
+                    PARA ARTISTAS
+                </span>
 
-                <article>
-                    <h3>💬 Posts</h3>
-                    <p>
-                        Converse, acompanhe pensamentos
-                        e participe da comunidade.
-                    </p>
-                </article>
+                <h2>
+                    Sua carreira começa
+                    aqui.
+                </h2>
+
+                <p>
+                    Lance suas músicas, publique Stories,
+                    compartilhe seus pensamentos e encontre
+                    quem realmente quer ouvir o que você tem a dizer.
+                </p>
+
+                <a href="#" class="btn-primary">
+                    Quero ser artista
+                </a>
+
             </div>
-        </section>
 
-        <section id="artistas">
-            <h2>Você é artista?</h2>
-
-            <p>
-                Publique suas músicas, compartilhe seus
-                Stories e construa sua comunidade no UnderUTA.
-            </p>
-
-            <a href="#criar-conta">
-                Começar como artista
-            </a>
         </section>
 
     </main>
 
-    <footer>
-        <p>© 2026 UnderUTA. Todos os direitos reservados.</p>
+
+    <!-- ==============================
+         RODAPÉ
+    =============================== -->
+
+    <footer class="footer">
+
+        <div>
+
+            <strong>
+                UnderUTA
+            </strong>
+
+            <p>
+                Música independente em um só lugar.
+            </p>
+
+        </div>
+
+        <p>
+            © 2026 UnderUTA
+        </p>
+
     </footer>
+
 
     <script src="script.js"></script>
 
 </body>
+
 </html>
