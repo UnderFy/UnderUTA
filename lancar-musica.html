@@ -149,8 +149,26 @@
             cursor: pointer;
         }
 
+        .release-button:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
         .release-button:active {
             transform: scale(.99);
+        }
+
+        .status {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            display: none;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .status.show {
+            display: block;
         }
 
         @media (max-width: 600px) {
@@ -286,118 +304,374 @@
                 Lançar música
             </button>
 
+            <div id="status" class="status"></div>
+
         </form>
 
     </main>
 
 
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-const form = document.getElementById("music-form");
-const botao = form.querySelector("button[type='submit']");
 
-form.addEventListener("submit", async function (event) {
-    event.preventDefault();
+        const SUPABASE_URL =
+            "https://xbdvmjjpfgwmzuzfazoy.supabase.co";
 
-    botao.disabled = true;
-    botao.textContent = "Publicando...";
+        const SUPABASE_ANON_KEY =
+            "sb_publishable_ulC-CdiVzcNdiHrOncouEw_HZlVDRr6";
 
-    try {
-        // Verifica se o usuário está logado
-        const { data: { user }, error: userError } =
-            await db.auth.getUser();
 
-        if (userError) throw userError;
-        if (!user) throw new Error("Você precisa estar logado.");
-
-        // Dados do formulário
-        const nome = document.getElementById("nome").value.trim();
-        const descricao = document.getElementById("descricao").value.trim();
-        const capaFile = document.getElementById("capa").files[0];
-        const audioFile = document.getElementById("audio").files[0];
-
-        if (!nome) throw new Error("Digite o nome da música.");
-        if (!capaFile) throw new Error("Escolha uma capa.");
-        if (!audioFile) throw new Error("Escolha o arquivo da música.");
-
-        // ID único da música
-        const musicaId = crypto.randomUUID();
-
-        // Nomes dos arquivos
-        const capaPath = `${user.id}/${musicaId}-capa`;
-        const audioPath = `${user.id}/${musicaId}-audio`;
-
-        // Envia a capa
-        const { error: capaError } = await db.storage
-            .from("capas")
-            .upload(capaPath, capaFile, {
-                contentType: capaFile.type,
-                upsert: false
-            });
-
-        if (capaError) throw capaError;
-
-        // Envia o áudio
-        const { error: audioError } = await db.storage
-            .from("musicas")
-            .upload(audioPath, audioFile, {
-                contentType: audioFile.type,
-                upsert: false
-            });
-
-        if (audioError) throw audioError;
-
-        // Pega as URLs públicas
-        const { data: capaData } = db.storage
-            .from("capas")
-            .getPublicUrl(capaPath);
-
-        const { data: audioData } = db.storage
-            .from("musicas")
-            .getPublicUrl(audioPath);
-
-        // Busca o perfil do artista
-        const { data: perfil, error: perfilError } = await db
-            .from("perfis")
-            .select("nome")
-            .eq("id", user.id)
-            .maybeSingle();
-
-        if (perfilError) throw perfilError;
-
-        // Salva a música no banco
-        const { error: musicaError } = await db
-            .from("musicas_ouvintes")
-            .insert({
-                id: musicaId,
-                nome: nome,
-                artista_id: user.id,
-                artista_nome: perfil?.nome || "Artista UnderUTA",
-                capa_url: capaData.publicUrl,
-                audio_url: audioData.publicUrl,
-                descricao: descricao
-            });
-
-        if (musicaError) throw musicaError;
-
-        alert("🎵 Música lançada com sucesso!");
-
-        form.reset();
-        botao.textContent = "Música publicada!";
-
-    } catch (error) {
-        console.error(error);
-
-        alert(
-            "Não foi possível lançar a música:\n\n" +
-            (error.message || error)
+        const db = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY,
+            {
+                auth: {
+                    persistSession: true,
+                    autoRefreshToken: true
+                }
+            }
         );
 
-        botao.disabled = false;
-        botao.textContent = "Lançar música";
-    }
-});
 
-</script>
+        const form =
+            document.getElementById("music-form");
+
+        const botao =
+            form.querySelector("button[type='submit']");
+
+        const status =
+            document.getElementById("status");
+
+
+        function mostrarStatus(mensagem) {
+
+            status.textContent = mensagem;
+            status.classList.add("show");
+
+        }
+
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                botao.disabled = true;
+                botao.textContent = "Publicando...";
+
+
+                try {
+
+                    mostrarStatus("Verificando sua conta...");
+
+
+                    // =========================
+                    // USUÁRIO LOGADO
+                    // =========================
+
+                    const {
+                        data: { user },
+                        error: userError
+                    } = await db.auth.getUser();
+
+
+                    if (userError) {
+                        throw userError;
+                    }
+
+
+                    if (!user) {
+                        throw new Error(
+                            "Você precisa estar logado."
+                        );
+                    }
+
+
+                    // =========================
+                    // DADOS DO FORMULÁRIO
+                    // =========================
+
+                    const nome =
+                        document
+                            .getElementById("nome")
+                            .value
+                            .trim();
+
+
+                    const descricao =
+                        document
+                            .getElementById("descricao")
+                            .value
+                            .trim();
+
+
+                    const capaFile =
+                        document
+                            .getElementById("capa")
+                            .files[0];
+
+
+                    const audioFile =
+                        document
+                            .getElementById("audio")
+                            .files[0];
+
+
+                    if (!nome) {
+                        throw new Error(
+                            "Digite o nome da música."
+                        );
+                    }
+
+
+                    if (!capaFile) {
+                        throw new Error(
+                            "Escolha uma capa."
+                        );
+                    }
+
+
+                    if (!audioFile) {
+                        throw new Error(
+                            "Escolha o arquivo da música."
+                        );
+                    }
+
+
+                    // =========================
+                    // ID DA MÚSICA
+                    // =========================
+
+                    const musicaId =
+                        crypto.randomUUID();
+
+
+                    // =========================
+                    // CAMINHOS DOS ARQUIVOS
+                    // =========================
+
+                    const capaPath =
+                        `${user.id}/${musicaId}-capa`;
+
+                    const audioPath =
+                        `${user.id}/${musicaId}-audio`;
+
+
+                    // =========================
+                    // ENVIA CAPA
+                    // =========================
+
+                    mostrarStatus(
+                        "Enviando a capa..."
+                    );
+
+
+                    const {
+                        error: capaError
+                    } = await db.storage
+                        .from("capas")
+                        .upload(
+                            capaPath,
+                            capaFile,
+                            {
+                                contentType:
+                                    capaFile.type,
+
+                                upsert: false
+                            }
+                        );
+
+
+                    if (capaError) {
+                        throw capaError;
+                    }
+
+
+                    // =========================
+                    // ENVIA ÁUDIO
+                    // =========================
+
+                    mostrarStatus(
+                        "Enviando o áudio..."
+                    );
+
+
+                    const {
+                        error: audioError
+                    } = await db.storage
+                        .from("musicas")
+                        .upload(
+                            audioPath,
+                            audioFile,
+                            {
+                                contentType:
+                                    audioFile.type,
+
+                                upsert: false
+                            }
+                        );
+
+
+                    if (audioError) {
+                        throw audioError;
+                    }
+
+
+                    // =========================
+                    // URL DA CAPA
+                    // =========================
+
+                    const {
+                        data: capaData
+                    } = db.storage
+                        .from("capas")
+                        .getPublicUrl(
+                            capaPath
+                        );
+
+
+                    // =========================
+                    // URL DO ÁUDIO
+                    // =========================
+
+                    const {
+                        data: audioData
+                    } = db.storage
+                        .from("musicas")
+                        .getPublicUrl(
+                            audioPath
+                        );
+
+
+                    // =========================
+                    // BUSCA PERFIL
+                    // =========================
+
+                    mostrarStatus(
+                        "Buscando seu perfil..."
+                    );
+
+
+                    const {
+                        data: perfil,
+                        error: perfilError
+                    } = await db
+                        .from("perfis")
+                        .select("nome")
+                        .eq("id", user.id)
+                        .maybeSingle();
+
+
+                    if (perfilError) {
+                        throw perfilError;
+                    }
+
+
+                    // =========================
+                    // SALVA NO BANCO
+                    // =========================
+
+                    mostrarStatus(
+                        "Salvando a música..."
+                    );
+
+
+                    const {
+                        error: musicaError
+                    } = await db
+                        .from("musicas_ouvintes")
+                        .insert({
+
+                            id: musicaId,
+
+                            nome: nome,
+
+                            artista_id: user.id,
+
+                            artista_nome:
+                                perfil?.nome ||
+                                "Artista UnderUTA",
+
+                            capa_url:
+                                capaData.publicUrl,
+
+                            audio_url:
+                                audioData.publicUrl,
+
+                            descricao:
+                                descricao
+
+                        });
+
+
+                    if (musicaError) {
+                        throw musicaError;
+                    }
+
+
+                    // =========================
+                    // SUCESSO
+                    // =========================
+
+                    mostrarStatus(
+                        "🎵 Música lançada com sucesso!"
+                    );
+
+
+                    alert(
+                        "🎵 Música lançada com sucesso!"
+                    );
+
+
+                    form.reset();
+
+
+                    botao.disabled = false;
+
+                    botao.textContent =
+                        "Música publicada!";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Erro ao lançar música:",
+                        error
+                    );
+
+
+                    const mensagem =
+                        error?.message ||
+                        String(error);
+
+
+                    mostrarStatus(
+                        "Erro: " + mensagem
+                    );
+
+
+                    alert(
+                        "Não foi possível lançar a música:\n\n" +
+                        mensagem
+                    );
+
+
+                    botao.disabled = false;
+
+                    botao.textContent =
+                        "Lançar música";
+
+                }
+
+            }
+        );
+
+    </script>
 
 </body>
 
