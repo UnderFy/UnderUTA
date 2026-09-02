@@ -16,13 +16,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 
-    // Busca o perfil do artista
-const { data: perfil, error: perfilError } =
-    await supabaseClient
-        .from("perfis")
-        .select("nome, username, tipo")
-        .eq("id", user.id)
-        .maybeSingle();
+    if (perfilError) {
+    console.error("ERRO AO CARREGAR PERFIL:", perfilError);
+
+    document.querySelector("#artist-name").textContent =
+        "Erro ao carregar perfil: " + perfilError.message;
+
+    return;
+}
 
 
 if (perfilError) {
