@@ -1446,3 +1446,131 @@ button {
     }
 
 }
+
+/* =================================
+   PLAYER UNDERUTA
+================================= */
+
+.under-player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    margin-top: 18px;
+}
+
+.under-audio {
+    display: none;
+}
+
+.under-play {
+    flex-shrink: 0;
+
+    width: 46px;
+    height: 46px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: #ffffff;
+    color: #000000;
+
+    font-size: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.15s ease,
+        opacity 0.15s ease;
+}
+
+.under-play:hover {
+    transform: scale(1.05);
+}
+
+.under-play:active {
+    transform: scale(0.95);
+}
+
+.under-player-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.under-progress-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.under-current,
+.under-duration {
+    min-width: 34px;
+
+    font-size: 11px;
+    color: #888;
+
+    text-align: center;
+}
+
+.under-progress {
+    flex: 1;
+
+    width: 100%;
+    height: 4px;
+
+    accent-color: #ffffff;
+
+    cursor: pointer;
+}
+
+.under-volume-area {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 9px;
+}
+
+.under-volume-icon {
+    font-size: 14px;
+}
+
+.under-volume {
+    width: 90px;
+    height: 4px;
+
+    accent-color: #ffffff;
+
+    cursor: pointer;
+}
+
+
+/* =================================
+   PLAYER NO CELULAR
+================================= */
+
+@media (max-width: 600px) {
+
+    .under-player {
+        gap: 10px;
+    }
+
+    .under-play {
+        width: 42px;
+        height: 42px;
+
+        font-size: 16px;
+    }
+
+    .under-volume {
+        width: 75px;
+    }
+
+}
