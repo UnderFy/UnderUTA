@@ -17,32 +17,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     // Busca o perfil do artista
-    const { data: perfil, error: perfilError } =
-        await supabaseClient
-            .from("perfis")
-            .select("nome, username, tipo")
-            .eq("id", user.id)
-            .single();
+const { data: perfil, error: perfilError } =
+    await supabaseClient
+        .from("perfis")
+        .select("nome, username, tipo")
+        .eq("id", user.id)
+        .maybeSingle();
 
 
-    if (perfilError) {
-        console.error(perfilError);
-        return;
-    }
+if (perfilError) {
 
+    console.error("Erro ao carregar perfil:", perfilError);
 
-    // Confirma que é artista
+    document.querySelector("#artist-name").textContent =
+        "Erro ao carregar seu perfil.";
+
+} else if (!perfil) {
+
+    console.error("Perfil não encontrado para:", user.id);
+
+    document.querySelector("#artist-name").textContent =
+        "Perfil não encontrado.";
+
+} else {
+
     if (perfil.tipo !== "artista") {
         window.location.href = "feed.html";
         return;
     }
 
-
-    // Nome do artista
-    const nome = document.querySelector("#artist-name");
-
-    nome.textContent =
+    document.querySelector("#artist-name").textContent =
         `Olá, ${perfil.nome || perfil.username}!`;
+}
+
 
 
     // Botão sair
