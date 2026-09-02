@@ -6,7 +6,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     } = await supabaseClient.auth.getUser();
 
     if (userError) {
-        console.error(userError);
+        console.error("ERRO AUTH:", userError);
+
+        document.querySelector("#artist-name").textContent =
+            "Erro ao verificar login.";
+
         return;
     }
 
@@ -15,32 +19,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
     }
 
+    const {
+        data: perfil,
+        error: perfilError
+    } = await supabaseClient
+        .from("perfis")
+        .select("nome, username, tipo")
+        .eq("id", user.id)
+        .single();
 
     if (perfilError) {
-    console.error("ERRO AO CARREGAR PERFIL:", perfilError);
+        console.error("ERRO AO CARREGAR PERFIL:", perfilError);
 
-    document.querySelector("#artist-name").textContent =
-        "Erro ao carregar perfil: " + perfilError.message;
+        document.querySelector("#artist-name").textContent =
+            "Erro ao carregar perfil: " + perfilError.message;
 
-    return;
-}
+        return;
+    }
 
+    if (!perfil) {
+        console.error("PERFIL NÃO ENCONTRADO:", user.id);
 
-if (perfilError) {
+        document.querySelector("#artist-name").textContent =
+            "Perfil não encontrado.";
 
-    console.error("Erro ao carregar perfil:", perfilError);
-
-    document.querySelector("#artist-name").textContent =
-        "Erro ao carregar seu perfil.";
-
-} else if (!perfil) {
-
-    console.error("Perfil não encontrado para:", user.id);
-
-    document.querySelector("#artist-name").textContent =
-        "Perfil não encontrado.";
-
-} else {
+        return;
+    }
 
     if (perfil.tipo !== "artista") {
         window.location.href = "feed.html";
@@ -49,38 +53,37 @@ if (perfilError) {
 
     document.querySelector("#artist-name").textContent =
         `Olá, ${perfil.nome || perfil.username}!`;
-}
 
+    // BOTÃO SAIR
 
-
-    // Botão sair
     const logout = document.querySelector("#logout-btn");
 
     logout.addEventListener("click", async () => {
-
         await supabaseClient.auth.signOut();
-
         window.location.href = "login.html";
-
     });
 
+    // LISTA DE LANÇAMENTOS
 
-    // Lista de lançamentos
     const releasesList =
         document.querySelector("#releases-list");
 
-
-    const { data: musicas, error: musicasError } =
-        await supabaseClient
-            .from("musicas_ouvintes")
-            .select("id, nome, artista_nome, capa_url, audio_url, descricao, criado_em")
-            .eq("artista_id", user.id)
-            .order("criado_em", { ascending: false });
-
+    const {
+        data: musicas,
+        error: musicasError
+    } = await supabaseClient
+        .from("musicas_ouvintes")
+        .select(
+            "id, nome, artista_nome, capa_url, audio_url, descricao, criado_em"
+        )
+        .eq("artista_id", user.id)
+        .order("criado_em", { ascending: false });
 
     if (musicasError) {
-
-        console.error(musicasError);
+        console.error(
+            "ERRO AO CARREGAR LANÇAMENTOS:",
+            musicasError
+        );
 
         releasesList.innerHTML =
             "<p>Não foi possível carregar seus lançamentos.</p>";
@@ -88,28 +91,20 @@ if (perfilError) {
         return;
     }
 
-
-    // Nenhuma música
     if (!musicas || musicas.length === 0) {
-
         releasesList.innerHTML =
             "<p>Nenhuma música lançada ainda.</p>";
 
         return;
     }
 
-
-    // Limpa o carregando
     releasesList.innerHTML = "";
 
-
-    // Mostra cada música
     musicas.forEach(musica => {
 
         const card = document.createElement("div");
 
         card.className = "release-card";
-
 
         card.innerHTML = `
             <div class="release-cover">
@@ -123,9 +118,7 @@ if (perfilError) {
 
                 <h3>${musica.nome}</h3>
 
-                <p>
-                    ${musica.descricao || ""}
-                </p>
+                <p>${musica.descricao || ""}</p>
 
                 <div class="under-player">
 
@@ -156,7 +149,8 @@ if (perfilError) {
                                 min="0"
                                 max="100"
                                 value="0"
-                                step="0.1">
+                                step="0.1"
+                            >
 
                             <span class="under-duration">
                                 0:00
@@ -176,7 +170,8 @@ if (perfilError) {
                                 min="0"
                                 max="1"
                                 value="1"
-                                step="0.01">
+                                step="0.01"
+                            >
 
                         </div>
 
@@ -187,13 +182,7 @@ if (perfilError) {
             </div>
         `;
 
-
         releasesList.appendChild(card);
-
-
-        // =========================
-        // PLAYER
-        // =========================
 
         const audio =
             card.querySelector(".under-audio");
@@ -217,7 +206,6 @@ if (perfilError) {
             card.querySelector(".under-volume-icon");
 
 
-        // Formata o tempo
         function formatTime(seconds) {
 
             if (!Number.isFinite(seconds)) {
@@ -236,74 +224,126 @@ if (perfilError) {
         }
 
 
-        // Duração carregada
-        audio.addEventListener("loadedmetadata", () => {
+        audio.addEventListener(
+            "loadedmetadata",
+            () => {
 
-            duration.textContent =
-                formatTime(audio.duration);
-
-        });
-
-
-        // Atualiza progresso
-        audio.addEventListener("timeupdate", () => {
-
-            currentTime.textContent =
-                formatTime(audio.currentTime);
-
-            if (audio.duration) {
-
-                progress.value =
-                    (audio.currentTime / audio.duration) * 100;
+                duration.textContent =
+                    formatTime(audio.duration);
 
             }
+        );
 
-        });
 
+        audio.addEventListener(
+            "timeupdate",
+            () => {
 
-        // Play / Pause
-        playButton.addEventListener("click", () => {
+                currentTime.textContent =
+                    formatTime(audio.currentTime);
 
-            if (audio.paused) {
+                if (audio.duration) {
 
-                // Pausa outros players
-                document
-                    .querySelectorAll(".under-audio")
-                    .forEach(outroAudio => {
+                    progress.value =
+                        (audio.currentTime /
+                        audio.duration) * 100;
 
-                        if (outroAudio !== audio) {
-                            outroAudio.pause();
-                        }
-
-                    });
-
-                audio.play();
-
-            } else {
-
-                audio.pause();
+                }
 
             }
-
-        });
-
-
-        // Mudança do botão
-        audio.addEventListener("play", () => {
-
-            playButton.textContent = "⏸";
-
-        });
+        );
 
 
-        audio.addEventListener("pause", () => {
+        playButton.addEventListener(
+            "click",
+            () => {
 
-            playButton.textContent = "▶";
+                if (audio.paused) {
 
-        });
+                    document
+                        .querySelectorAll(".under-audio")
+                        .forEach(outroAudio => {
+
+                            if (outroAudio !== audio) {
+                                outroAudio.pause();
+                            }
+
+                        });
+
+                    audio.play();
+
+                } else {
+
+                    audio.pause();
+
+                }
+
+            }
+        );
 
 
-        // Música terminou
-        audio.addEventListener("ended", () => {
+        audio.addEventListener(
+            "play",
+            () => {
 
-            playButton.textContent =
+                playButton.textContent = "⏸";
+
+            }
+        );
+
+
+        audio.addEventListener(
+            "pause",
+            () => {
+
+                playButton.textContent = "▶";
+
+            }
+        );
+
+
+        audio.addEventListener(
+            "ended",
+            () => {
+
+                playButton.textContent = "▶";
+                progress.value = 0;
+
+            }
+        );
+
+
+        progress.addEventListener(
+            "input",
+            () => {
+
+                if (!audio.duration) {
+                    return;
+                }
+
+                audio.currentTime =
+                    (progress.value / 100) *
+                    audio.duration;
+
+            }
+        );
+
+
+        volume.addEventListener(
+            "input",
+            () => {
+
+                audio.volume =
+                    Number(volume.value);
+
+                volumeIcon.textContent =
+                    audio.volume === 0
+                        ? "🔇"
+                        : "🔊";
+
+            }
+        );
+
+    });
+
+});
