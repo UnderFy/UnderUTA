@@ -119,10 +119,62 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ${musica.descricao || ""}
                 </p>
 
-                <audio
-                    controls
-                    src="${musica.audio_url}">
-                </audio>
+                <div class="under-player">
+
+                    <audio
+                        class="under-audio"
+                        src="${musica.audio_url}"
+                        preload="metadata">
+                    </audio>
+
+                    <button
+                        class="under-play"
+                        type="button"
+                        aria-label="Reproduzir">
+                        ▶
+                    </button>
+
+                    <div class="under-player-main">
+
+                        <div class="under-progress-area">
+
+                            <span class="under-current">
+                                0:00
+                            </span>
+
+                            <input
+                                class="under-progress"
+                                type="range"
+                                min="0"
+                                max="100"
+                                value="0"
+                                step="0.1">
+
+                            <span class="under-duration">
+                                0:00
+                            </span>
+
+                        </div>
+
+                        <div class="under-volume-area">
+
+                            <span class="under-volume-icon">
+                                🔊
+                            </span>
+
+                            <input
+                                class="under-volume"
+                                type="range"
+                                min="0"
+                                max="1"
+                                value="1"
+                                step="0.01">
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
         `;
@@ -130,6 +182,120 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         releasesList.appendChild(card);
 
-    });
 
-});
+        // =========================
+        // PLAYER
+        // =========================
+
+        const audio =
+            card.querySelector(".under-audio");
+
+        const playButton =
+            card.querySelector(".under-play");
+
+        const progress =
+            card.querySelector(".under-progress");
+
+        const currentTime =
+            card.querySelector(".under-current");
+
+        const duration =
+            card.querySelector(".under-duration");
+
+        const volume =
+            card.querySelector(".under-volume");
+
+        const volumeIcon =
+            card.querySelector(".under-volume-icon");
+
+
+        // Formata o tempo
+        function formatTime(seconds) {
+
+            if (!Number.isFinite(seconds)) {
+                return "0:00";
+            }
+
+            const minutes =
+                Math.floor(seconds / 60);
+
+            const secs =
+                Math.floor(seconds % 60);
+
+            return `${minutes}:${secs
+                .toString()
+                .padStart(2, "0")}`;
+        }
+
+
+        // Duração carregada
+        audio.addEventListener("loadedmetadata", () => {
+
+            duration.textContent =
+                formatTime(audio.duration);
+
+        });
+
+
+        // Atualiza progresso
+        audio.addEventListener("timeupdate", () => {
+
+            currentTime.textContent =
+                formatTime(audio.currentTime);
+
+            if (audio.duration) {
+
+                progress.value =
+                    (audio.currentTime / audio.duration) * 100;
+
+            }
+
+        });
+
+
+        // Play / Pause
+        playButton.addEventListener("click", () => {
+
+            if (audio.paused) {
+
+                // Pausa outros players
+                document
+                    .querySelectorAll(".under-audio")
+                    .forEach(outroAudio => {
+
+                        if (outroAudio !== audio) {
+                            outroAudio.pause();
+                        }
+
+                    });
+
+                audio.play();
+
+            } else {
+
+                audio.pause();
+
+            }
+
+        });
+
+
+        // Mudança do botão
+        audio.addEventListener("play", () => {
+
+            playButton.textContent = "⏸";
+
+        });
+
+
+        audio.addEventListener("pause", () => {
+
+            playButton.textContent = "▶";
+
+        });
+
+
+        // Música terminou
+        audio.addEventListener("ended", () => {
+
+            playButton.textContent =
