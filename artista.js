@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (perfil.tipo !== "artista") {
-        window.location.href = "feed.html";
-        return;
+    window.location.href = "ouvinte.html";
+    return;
     }
 
     document.querySelector("#artist-name").textContent =
