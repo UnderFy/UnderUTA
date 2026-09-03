@@ -172,3 +172,215 @@ function criarPlayer() {
 
     return player;
 }
+
+// =========================================
+// STORIES — OUVINTES
+// =========================================
+
+async function carregarStories() {
+
+    const lista = document.querySelector("#stories-list");
+
+    if (!lista) {
+        return;
+    }
+
+    lista.innerHTML = `
+        <p id="stories-loading">
+            Carregando Stories...
+        </p>
+    `;
+
+    const { data: stories, error } = await supabaseClient
+        .from("stories")
+        .select("id, artista_id, midia_url, tipo, criado_em, expira_em")
+        .gt("expira_em", new Date().toISOString())
+        .order("criado_em", { ascending: false });
+
+    if (error) {
+        console.error("Erro ao carregar Stories:", error);
+
+        lista.innerHTML = `
+            <p>
+                Não foi possível carregar os Stories.
+            </p>
+        `;
+
+        return;
+    }
+
+    if (!stories || stories.length === 0) {
+
+        lista.innerHTML = `
+            <p>
+                Nenhum Story publicado no momento.
+            </p>
+        `;
+
+        return;
+    }
+
+    const idsArtistas = [
+        ...new Set(
+            stories
+                .map((story) => story.artista_id)
+                .filter(Boolean)
+        )
+    ];
+
+    let artistas = [];
+
+    if (idsArtistas.length > 0) {
+
+        const respostaArtistas = await supabaseClient
+            .from("artistas")
+            .select("id, nome_artistico")
+            .in("id", idsArtistas);
+
+        if (respostaArtistas.error) {
+            console.error(
+                "Erro ao carregar artistas:",
+                respostaArtistas.error
+            );
+        } else {
+            artistas = respostaArtistas.data || [];
+        }
+    }
+
+    const mapaArtistas = {};
+
+    artistas.forEach((artista) => {
+        mapaArtistas[artista.id] = artista;
+    });
+
+    lista.innerHTML = "";
+
+    stories.forEach((story) => {
+
+        const artista = mapaArtistas[story.artista_id];
+
+        const nomeArtista =
+            artista?.nome_artistico ||
+            "Artista";
+
+        const inicial =
+            nomeArtista
+                .trim()
+                .charAt(0)
+                .toUpperCase() || "A";
+
+        const card = document.createElement("article");
+
+        card.className = "story";
+        card.dataset.storyId = story.id;
+
+        card.innerHTML = `
+            <button
+                type="button"
+                class="story-button"
+                aria-label="Abrir Story de ${nomeArtista}"
+            >
+
+                <div class="story-avatar">
+                    ${inicial}
+                </div>
+
+                <span>
+                    ${nomeArtista}
+                </span>
+
+            </button>
+        `;
+
+        const botao = card.querySelector(".story-button");
+
+        botao.addEventListener("click", () => {
+            abrirStory(story, nomeArtista);
+        });
+
+        lista.appendChild(card);
+    });
+}
+
+
+// =========================================
+// ABRIR STORY
+// =========================================
+
+function abrirStory(story, nomeArtista) {
+
+    let viewer = document.querySelector("#story-viewer");
+
+    if (!viewer) {
+
+        viewer = document.createElement("div");
+
+        viewer.id = "story-viewer";
+        viewer.className = "story-viewer";
+
+        viewer.innerHTML = `
+            <div class="story-viewer-content">
+
+                <button
+                    type="button"
+                    class="story-close"
+                    aria-label="Fechar Story"
+                >
+                    ×
+                </button>
+
+                <div class="story-artist-name"></div>
+
+                <div class="story-media"></div>
+
+            </div>
+        `;
+
+        document.body.appendChild(viewer);
+
+        viewer
+            .querySelector(".story-close")
+            .addEventListener("click", () => {
+                viewer.classList.remove("story-viewer-visible");
+            });
+    }
+
+    const nome = viewer.querySelector(".story-artist-name");
+    const media = viewer.querySelector(".story-media");
+
+    nome.textContent = nomeArtista;
+
+    media.innerHTML = "";
+
+    if (story.tipo === "video") {
+
+        const video = document.createElement("video");
+
+        video.src = story.midia_url;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+
+        media.appendChild(video);
+
+    } else {
+
+        const imagem = document.createElement("img");
+
+        imagem.src = story.midia_url;
+        imagem.alt = `Story de ${nomeArtista}`;
+
+        media.appendChild(imagem);
+    }
+
+    viewer.classList.add("story-viewer-visible");
+}
+
+
+// =========================================
+// INICIAR STORIES
+// =========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+    carregarStories();
+});
