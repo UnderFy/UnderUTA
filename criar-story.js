@@ -46,6 +46,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     // =====================================
+    // ESPELHAMENTO DA CÂMERA
+    // =====================================
+
+    function updateCameraMirror() {
+
+        if (currentCamera === "user") {
+
+            cameraPreview.style.transform =
+                "scaleX(-1)";
+
+        } else {
+
+            cameraPreview.style.transform =
+                "scaleX(1)";
+
+        }
+
+    }
+
+
+    // =====================================
     // VERIFICAR USUÁRIO
     // =====================================
 
@@ -57,7 +78,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (userError || !user) {
 
-        window.location.href = "login.html";
+        window.location.href =
+            "login.html";
 
         return;
 
@@ -84,7 +106,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         perfil.tipo !== "artista"
     ) {
 
-        window.location.href = "feed.html";
+        window.location.href =
+            "feed.html";
 
         return;
 
@@ -101,7 +124,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
+
         previewContainer.innerHTML = "";
+
 
         const url =
             URL.createObjectURL(file);
@@ -112,25 +137,32 @@ document.addEventListener("DOMContentLoaded", async () => {
             const img =
                 document.createElement("img");
 
+
             img.src = url;
 
-            img.alt = "Prévia do Story";
+            img.alt =
+                "Prévia do Story";
+
 
             previewContainer.appendChild(img);
 
         }
 
 
-        else if (file.type.startsWith("video/")) {
+        else if (
+            file.type.startsWith("video/")
+        ) {
 
             const video =
                 document.createElement("video");
+
 
             video.src = url;
 
             video.controls = true;
 
             video.playsInline = true;
+
 
             previewContainer.appendChild(video);
 
@@ -143,24 +175,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ARQUIVO DO CELULAR
     // =====================================
 
-    fileInput.addEventListener("change", () => {
+    fileInput.addEventListener(
+        "change",
+        () => {
 
-        selectedFile =
-            fileInput.files[0];
+            selectedFile =
+                fileInput.files[0];
 
 
-        if (!selectedFile) {
+            if (!selectedFile) {
+                return;
+            }
 
-            return;
+
+            showPreview(
+                selectedFile
+            );
+
+
+            status.textContent =
+                "";
 
         }
-
-
-        showPreview(selectedFile);
-
-        status.textContent = "";
-
-    });
+    );
 
 
     // =====================================
@@ -173,8 +210,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             try {
 
-                if (!navigator.mediaDevices ||
-                    !navigator.mediaDevices.getUserMedia) {
+                if (
+                    !navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia
+                ) {
 
                     status.textContent =
                         "Seu navegador não permite acesso à câmera.";
@@ -188,18 +227,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     cameraStream
                         .getTracks()
-                        .forEach(track => track.stop());
+                        .forEach(
+                            track => track.stop()
+                        );
 
                 }
 
 
                 cameraStream =
-                    await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: currentCamera
-                        },
-                        audio: true
-                    });
+                    await navigator.mediaDevices
+                        .getUserMedia({
+
+                            video: {
+                                facingMode:
+                                    currentCamera
+                            },
+
+                            audio: true
+
+                        });
 
 
                 cameraPreview.srcObject =
@@ -212,6 +258,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 cameraPlaceholder.style.display =
                     "none";
+
+
+                // ATIVA O ESPELHAMENTO
+                // SOMENTE NA SELFIE
+
+                updateCameraMirror();
 
 
                 openCameraButton.hidden =
@@ -230,7 +282,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                     false;
 
 
-                status.textContent = "";
+                status.textContent =
+                    "";
 
 
             } catch (error) {
@@ -258,34 +311,58 @@ document.addEventListener("DOMContentLoaded", async () => {
         "click",
         async () => {
 
+
+            // SELFIE <-> TRASEIRA
+
             currentCamera =
                 currentCamera === "environment"
                     ? "user"
                     : "environment";
 
 
+            // ENCERRA A CÂMERA ATUAL
+
             if (cameraStream) {
 
                 cameraStream
                     .getTracks()
-                    .forEach(track => track.stop());
+                    .forEach(
+                        track => track.stop()
+                    );
 
             }
 
 
             try {
 
+                // ABRE A NOVA CÂMERA
+
                 cameraStream =
-                    await navigator.mediaDevices.getUserMedia({
-                        video: {
-                            facingMode: currentCamera
-                        },
-                        audio: true
-                    });
+                    await navigator.mediaDevices
+                        .getUserMedia({
+
+                            video: {
+                                facingMode:
+                                    currentCamera
+                            },
+
+                            audio: true
+
+                        });
 
 
                 cameraPreview.srcObject =
                     cameraStream;
+
+
+                // ATUALIZA O ESPELHAMENTO
+
+                updateCameraMirror();
+
+
+                status.textContent =
+                    "";
+
 
             } catch (error) {
 
@@ -293,6 +370,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "ERRO AO TROCAR CÂMERA:",
                     error
                 );
+
 
                 status.textContent =
                     "Não foi possível trocar a câmera.";
@@ -311,38 +389,79 @@ document.addEventListener("DOMContentLoaded", async () => {
         "click",
         () => {
 
+
             if (!cameraStream) {
                 return;
             }
 
 
-            const canvas =
-                document.createElement("canvas");
-
-
-            canvas.width =
+            const width =
                 cameraPreview.videoWidth;
 
 
-            canvas.height =
+            const height =
                 cameraPreview.videoHeight;
+
+
+            if (!width || !height) {
+
+                status.textContent =
+                    "A câmera ainda está iniciando.";
+
+                return;
+
+            }
+
+
+            const canvas =
+                document.createElement(
+                    "canvas"
+                );
+
+
+            canvas.width =
+                width;
+
+
+            canvas.height =
+                height;
 
 
             const context =
                 canvas.getContext("2d");
 
 
+            // SELFIE:
+            // SALVA A FOTO ESPELHADA
+
+            if (currentCamera === "user") {
+
+                context.translate(
+                    width,
+                    0
+                );
+
+
+                context.scale(
+                    -1,
+                    1
+                );
+
+            }
+
+
             context.drawImage(
                 cameraPreview,
                 0,
                 0,
-                canvas.width,
-                canvas.height
+                width,
+                height
             );
 
 
             canvas.toBlob(
                 blob => {
+
 
                     if (!blob) {
                         return;
@@ -351,24 +470,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     selectedFile =
                         new File(
+
                             [blob],
+
                             `story-${Date.now()}.jpg`,
+
                             {
-                                type: "image/jpeg"
+                                type:
+                                    "image/jpeg"
                             }
+
                         );
 
 
-                    showPreview(selectedFile);
+                    showPreview(
+                        selectedFile
+                    );
 
 
                     status.textContent =
                         "Foto capturada.";
 
-
                 },
+
                 "image/jpeg",
+
                 0.92
+
             );
 
         }
@@ -383,8 +511,22 @@ document.addEventListener("DOMContentLoaded", async () => {
         "click",
         () => {
 
+
             if (!cameraStream) {
                 return;
+            }
+
+
+            if (
+                typeof MediaRecorder ===
+                "undefined"
+            ) {
+
+                status.textContent =
+                    "Seu navegador não suporta gravação de vídeo.";
+
+                return;
+
             }
 
 
@@ -410,12 +552,41 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             else if (
                 MediaRecorder.isTypeSupported(
+                    "video/webm;codecs=vp8,opus"
+                )
+            ) {
+
+                options = {
+                    mimeType:
+                        "video/webm;codecs=vp8,opus"
+                };
+
+            }
+
+
+            else if (
+                MediaRecorder.isTypeSupported(
                     "video/webm"
                 )
             ) {
 
                 options = {
-                    mimeType: "video/webm"
+                    mimeType:
+                        "video/webm"
+                };
+
+            }
+
+
+            else if (
+                MediaRecorder.isTypeSupported(
+                    "video/mp4"
+                )
+            ) {
+
+                options = {
+                    mimeType:
+                        "video/mp4"
                 };
 
             }
@@ -431,7 +602,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             } catch (error) {
 
-                console.error(error);
+                console.error(
+                    "ERRO AO CRIAR GRAVADOR:",
+                    error
+                );
+
 
                 status.textContent =
                     "Seu navegador não conseguiu iniciar a gravação.";
@@ -441,11 +616,18 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
 
+            // =====================================
+            // DADOS DA GRAVAÇÃO
+            // =====================================
+
             mediaRecorder.addEventListener(
                 "dataavailable",
                 event => {
 
-                    if (event.data.size > 0) {
+                    if (
+                        event.data &&
+                        event.data.size > 0
+                    ) {
 
                         recordedChunks.push(
                             event.data
@@ -457,9 +639,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
 
 
+            // =====================================
+            // FINALIZAR GRAVAÇÃO
+            // =====================================
+
             mediaRecorder.addEventListener(
                 "stop",
                 () => {
+
 
                     const blob =
                         new Blob(
@@ -472,18 +659,38 @@ document.addEventListener("DOMContentLoaded", async () => {
                         );
 
 
+                    let extensao =
+                        "webm";
+
+
+                    if (
+                        blob.type.includes("mp4")
+                    ) {
+
+                        extensao =
+                            "mp4";
+
+                    }
+
+
                     selectedFile =
                         new File(
+
                             [blob],
-                            `story-${Date.now()}.webm`,
+
+                            `story-${Date.now()}.${extensao}`,
+
                             {
                                 type:
                                     blob.type
                             }
+
                         );
 
 
-                    showPreview(selectedFile);
+                    showPreview(
+                        selectedFile
+                    );
 
 
                     status.textContent =
@@ -500,6 +707,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
             );
 
+
+            // COMEÇA A GRAVAR
 
             mediaRecorder.start();
 
@@ -529,7 +738,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (
                 mediaRecorder &&
-                mediaRecorder.state === "recording"
+                mediaRecorder.state ===
+                "recording"
             ) {
 
                 mediaRecorder.stop();
@@ -547,6 +757,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     publishButton.addEventListener(
         "click",
         async () => {
+
 
             if (!selectedFile) {
 
@@ -568,54 +779,82 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             try {
 
+
+                // =================================
+                // EXTENSÃO
+                // =================================
+
                 const extensao =
                     selectedFile.name
                         .split(".")
                         .pop();
 
 
+                // =================================
+                // NOME DO ARQUIVO
+                // =================================
+
                 const nomeArquivo =
                     `${user.id}/${crypto.randomUUID()}.${extensao}`;
 
 
+                // =================================
                 // UPLOAD
+                // =================================
+
                 const {
                     error: uploadError
                 } = await supabaseClient
                     .storage
                     .from("stories")
                     .upload(
+
                         nomeArquivo,
+
                         selectedFile,
+
                         {
                             contentType:
                                 selectedFile.type,
-                            upsert: false
+
+                            upsert:
+                                false
                         }
+
                     );
 
 
                 if (uploadError) {
+
                     throw uploadError;
+
                 }
 
 
+                // =================================
                 // URL PÚBLICA
+                // =================================
+
                 const {
-                    data: publicUrlData
-                } = supabaseClient
-                    .storage
-                    .from("stories")
-                    .getPublicUrl(
-                        nomeArquivo
-                    );
+                    data:
+                        publicUrlData
+                } =
+                    supabaseClient
+                        .storage
+                        .from("stories")
+                        .getPublicUrl(
+                            nomeArquivo
+                        );
 
 
                 const midiaUrl =
                     publicUrlData.publicUrl;
 
 
+                // =================================
                 // TIPO
+                // =================================
+
                 const tipo =
                     selectedFile.type
                         .startsWith("video/")
@@ -623,7 +862,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                         : "imagem";
 
 
+                // =================================
                 // EXPIRA EM 24 HORAS
+                // =================================
+
                 const expiraEm =
                     new Date(
                         Date.now() +
@@ -631,31 +873,52 @@ document.addEventListener("DOMContentLoaded", async () => {
                     ).toISOString();
 
 
+                // =================================
                 // BANCO
+                // =================================
+
                 const {
                     error: insertError
                 } = await supabaseClient
                     .from("stories")
                     .insert({
-                        artista_id: user.id,
-                        midia_url: midiaUrl,
-                        tipo: tipo,
-                        expira_em: expiraEm
+
+                        artista_id:
+                            user.id,
+
+                        midia_url:
+                            midiaUrl,
+
+                        tipo:
+                            tipo,
+
+                        expira_em:
+                            expiraEm
+
                     });
 
 
                 if (insertError) {
+
                     throw insertError;
+
                 }
 
+
+                // =================================
+                // SUCESSO
+                // =================================
 
                 status.textContent =
                     "Story publicado com sucesso!";
 
 
-                fileInput.value = "";
+                fileInput.value =
+                    "";
 
-                selectedFile = null;
+
+                selectedFile =
+                    null;
 
 
                 previewContainer.innerHTML =
@@ -697,7 +960,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 cameraStream
                     .getTracks()
-                    .forEach(track => track.stop());
+                    .forEach(
+                        track => track.stop()
+                    );
 
             }
 
