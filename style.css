@@ -2644,3 +2644,171 @@ button {
     }
 
 }
+
+/* =========================================
+   CORREÇÃO FINAL — CADASTRO UNDERUTA
+========================================= */
+
+#register-form {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0 !important;
+}
+
+/* Cada label ocupa uma linha inteira */
+#register-form label {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 0 8px !important;
+    padding: 0 !important;
+
+    color: #aaa !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+}
+
+/* Todos os campos ficam um abaixo do outro */
+#register-form input {
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    height: 58px !important;
+
+    margin: 0 0 22px !important;
+    padding: 0 17px !important;
+
+    box-sizing: border-box !important;
+
+    background: #151515 !important;
+    color: #fff !important;
+
+    border: 1px solid #303030 !important;
+    border-radius: 11px !important;
+
+    outline: none !important;
+
+    font-family: inherit !important;
+    font-size: 16px !important;
+}
+
+/* Foco */
+#register-form input:focus {
+    border-color: #777 !important;
+    background: #181818 !important;
+}
+
+/* Placeholder */
+#register-form input::placeholder {
+    color: #555 !important;
+    opacity: 1 !important;
+}
+
+/* Botão */
+#register-form .auth-submit {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    min-height: 58px !important;
+
+    margin: 8px 0 0 !important;
+    padding: 0 24px !important;
+
+    box-sizing: border-box !important;
+
+    border: 1px solid #fff !important;
+    border-radius: 11px !important;
+
+    background: #fff !important;
+    color: #000 !important;
+
+    font-family: inherit !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+}
+
+/* Hover */
+#register-form .auth-submit:hover {
+    background: #ddd !important;
+}
+
+/* Clique */
+#register-form .auth-submit:active {
+    transform: scale(0.98) !important;
+}
+
+/* =========================================
+   CADASTRO — CELULAR
+========================================= */
+
+@media (max-width: 600px) {
+
+    .auth-page {
+        padding: 25px 14px 70px !important;
+    }
+
+    .auth-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 25px 0 60px !important;
+    }
+
+    .auth-logo {
+        margin-bottom: 32px !important;
+        font-size: 28px !important;
+    }
+
+    .auth-box {
+        width: 100% !important;
+        padding: 28px 20px 32px !important;
+        border-radius: 18px !important;
+    }
+
+    .auth-header {
+        margin-bottom: 32px !important;
+    }
+
+    .auth-header h1 {
+        font-size: 46px !important;
+        line-height: 0.98 !important;
+    }
+
+    .auth-header p {
+        margin-top: 18px !important;
+        font-size: 16px !important;
+    }
+
+    .account-types {
+        width: 100% !important;
+        gap: 10px !important;
+        margin-bottom: 32px !important;
+    }
+
+    .account-type {
+        width: 100% !important;
+        min-height: 88px !important;
+        padding: 16px !important;
+    }
+
+    #register-form input {
+        width: 100% !important;
+        height: 56px !important;
+        margin-bottom: 20px !important;
+    }
+
+    #register-form .auth-submit {
+        min-height: 58px !important;
+        margin-top: 8px !important;
+    }
+
+    .auth-register {
+        margin-top: 28px !important;
+        font-size: 14px !important;
+    }
+}
