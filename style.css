@@ -2270,3 +2270,377 @@ button {
     }
 
 }
+
+/* =========================================
+   CADASTRO — VISUAL
+========================================= */
+
+.auth-page {
+    min-height: 100vh;
+    background: #080808;
+    color: #fff;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 50px 20px 90px;
+    box-sizing: border-box;
+}
+
+.auth-logo {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 45px;
+
+    color: #fff;
+    text-decoration: none;
+
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+}
+
+.auth-box {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 45px;
+    border: 1px solid #292929;
+    border-radius: 22px;
+
+    background: #0d0d0d;
+}
+
+
+/* =========================================
+   CABEÇALHO
+========================================= */
+
+.auth-header {
+    margin-bottom: 40px;
+}
+
+.auth-header .section-label {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.auth-header h1 {
+    margin: 0;
+
+    font-size: clamp(42px, 7vw, 68px);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+}
+
+.auth-header p {
+    margin: 22px 0 0;
+
+    color: #888;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   TIPO DE CONTA
+========================================= */
+
+.account-types {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-bottom: 38px;
+}
+
+.account-type {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    width: 100%;
+    min-height: 100px;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #292929;
+    border-radius: 15px;
+
+    background: #111;
+    color: #fff;
+
+    text-align: left;
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.account-type:hover {
+    background: #151515;
+    border-color: #444;
+}
+
+.account-type.active {
+    background: #171717;
+    border-color: #777;
+}
+
+.account-type:active {
+    transform: scale(0.99);
+}
+
+.account-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 0 58px;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 14px;
+
+    background: #090909;
+
+    font-size: 25px;
+}
+
+.account-type strong {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.account-type small {
+    display: block;
+
+    color: #888;
+
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+
+/* =========================================
+   FORMULÁRIO
+========================================= */
+
+#register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    width: 100%;
+}
+
+
+/* =========================================
+   LABELS
+========================================= */
+
+#register-form label {
+    display: block;
+
+    margin: 0 0 9px;
+
+    color: #aaa;
+
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+
+/* =========================================
+   CAMPOS
+========================================= */
+
+#register-form input {
+    display: block;
+
+    width: 100%;
+    height: 58px;
+
+    box-sizing: border-box;
+
+    margin: 0 0 24px;
+    padding: 0 18px;
+
+    border: 1px solid #303030;
+    border-radius: 11px;
+
+    outline: none;
+
+    background: #151515;
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 16px;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+#register-form input::placeholder {
+    color: #555;
+}
+
+#register-form input:focus {
+    border-color: #777;
+    background: #181818;
+}
+
+
+/* =========================================
+   BOTÃO
+========================================= */
+
+#register-form .auth-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-height: 58px;
+
+    margin-top: 10px;
+
+    padding: 0 24px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #fff;
+    border-radius: 11px;
+
+    background: #fff;
+    color: #000;
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+#register-form .auth-submit:hover {
+    background: #ddd;
+}
+
+#register-form .auth-submit:active {
+    transform: scale(0.98);
+}
+
+#register-form .auth-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+.auth-register {
+    margin: 30px 0 0;
+
+    color: #777;
+
+    text-align: center;
+    font-size: 15px;
+}
+
+.auth-register a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-register a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .auth-container {
+        padding: 30px 16px 60px;
+    }
+
+    .auth-logo {
+        margin-bottom: 30px;
+        font-size: 27px;
+    }
+
+    .auth-box {
+        padding: 28px 20px 32px;
+        border-radius: 18px;
+    }
+
+    .auth-header {
+        margin-bottom: 30px;
+    }
+
+    .auth-header h1 {
+        font-size: 46px;
+    }
+
+    .auth-header p {
+        font-size: 16px;
+    }
+
+    .account-type {
+        min-height: 90px;
+        padding: 16px;
+        gap: 14px;
+    }
+
+    .account-icon {
+        flex-basis: 52px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .account-type strong {
+        font-size: 17px;
+    }
+
+    .account-type small {
+        font-size: 13px;
+    }
+
+    #register-form input {
+        height: 56px;
+        margin-bottom: 22px;
+    }
+
+    #register-form .auth-submit {
+        min-height: 58px;
+    }
+
+}
