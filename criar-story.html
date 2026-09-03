@@ -1,1 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UnderUTA — Criar Story</title>
+
+    <link rel="stylesheet" href="style.css?v=3">
+</head>
+
+<body>
+
+<header class="artist-header">
+
+    <div class="artist-logo">
+        UnderUTA
+    </div>
+
+    <a href="artista.html" id="back-btn">
+        Voltar
+    </a>
+
+</header>
+
+
+<main class="create-story">
+
+    <section class="story-header">
+
+        <span class="section-label">
+            NOVO STORY
+        </span>
+
+        <h1>
+            Compartilhe<br>
+            um momento.
+        </h1>
+
+        <p>
+            Publique uma imagem ou vídeo para seus ouvintes.
+        </p>
+
+    </section>
+
+
+    <section class="story-form">
+
+        <label for="story-file">
+            Escolha uma mídia
+        </label>
+
+        <input
+            type="file"
+            id="story-file"
+            accept="image/*,video/*"
+        >
+
+
+        <div id="preview-container" class="story-preview">
+
+            <p>
+                A prévia aparecerá aqui.
+            </p>
+
+        </div>
+
+
+        <button
+            id="publish-story"
+            type="button">
+
+            Publicar Story
+
+        </button>
+
+
+        <p
+            id="story-status"
+            class="story-status">
+        </p>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js?v=2"></script>
+
+<script src="criar-story.js?v=1"></script>
+
+</body>
+
+</html>
