@@ -39,7 +39,7 @@
         </h1>
 
         <p>
-            Publique uma imagem ou vídeo para seus ouvintes.
+            Crie uma foto ou vídeo para seus ouvintes.
         </p>
 
     </section>
@@ -47,18 +47,95 @@
 
     <section class="story-form">
 
+        <div class="story-camera">
+
+            <video
+                id="camera-preview"
+                autoplay
+                playsinline
+                muted>
+            </video>
+
+            <div
+                id="camera-placeholder"
+                class="camera-placeholder">
+
+                <p>
+                    Sua câmera aparecerá aqui.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="story-camera-actions">
+
+            <button
+                id="open-camera"
+                type="button">
+
+                Abrir câmera
+
+            </button>
+
+            <button
+                id="switch-camera"
+                type="button"
+                hidden>
+
+                Trocar câmera
+
+            </button>
+
+            <button
+                id="take-photo"
+                type="button"
+                hidden>
+
+                Tirar foto
+
+            </button>
+
+            <button
+                id="start-video"
+                type="button"
+                hidden>
+
+                Gravar vídeo
+
+            </button>
+
+            <button
+                id="stop-video"
+                type="button"
+                hidden>
+
+                Parar gravação
+
+            </button>
+
+        </div>
+
+
+        <div class="story-divider">
+            <span>ou</span>
+        </div>
+
+
         <label for="story-file">
-            Escolha uma mídia
+            Escolher uma mídia do celular
         </label>
 
         <input
             type="file"
             id="story-file"
-            accept="image/*,video/*"
-        >
+            accept="image/*,video/*">
 
 
-        <div id="preview-container" class="story-preview">
+        <div
+            id="preview-container"
+            class="story-preview">
 
             <p>
                 A prévia aparecerá aqui.
@@ -90,7 +167,7 @@
 
 <script src="supabase.js?v=2"></script>
 
-<script src="criar-story.js?v=1"></script>
+<script src="criar-story.js?v=2"></script>
 
 </body>
 
