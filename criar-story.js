@@ -1,24 +1,73 @@
 document.addEventListener("DOMContentLoaded", async () => {
 
-    const fileInput = document.querySelector("#story-file");
-    const previewContainer = document.querySelector("#preview-container");
-    const publishButton = document.querySelector("#publish-story");
-    const status = document.querySelector("#story-status");
+    const fileInput =
+        document.querySelector("#story-file");
+
+    const previewContainer =
+        document.querySelector("#preview-container");
+
+    const publishButton =
+        document.querySelector("#publish-story");
+
+    const status =
+        document.querySelector("#story-status");
+
+    const cameraPreview =
+        document.querySelector("#camera-preview");
+
+    const cameraPlaceholder =
+        document.querySelector("#camera-placeholder");
+
+    const openCameraButton =
+        document.querySelector("#open-camera");
+
+    const switchCameraButton =
+        document.querySelector("#switch-camera");
+
+    const takePhotoButton =
+        document.querySelector("#take-photo");
+
+    const startVideoButton =
+        document.querySelector("#start-video");
+
+    const stopVideoButton =
+        document.querySelector("#stop-video");
+
 
     let selectedFile = null;
 
-    // Verificar usuário
+    let cameraStream = null;
+
+    let mediaRecorder = null;
+
+    let recordedChunks = [];
+
+    let currentCamera = "environment";
+
+
+    // =====================================
+    // VERIFICAR USUÁRIO
+    // =====================================
+
     const {
         data: { user },
         error: userError
     } = await supabaseClient.auth.getUser();
 
+
     if (userError || !user) {
+
         window.location.href = "login.html";
+
         return;
+
     }
 
-    // Verificar se é artista
+
+    // =====================================
+    // VERIFICAR ARTISTA
+    // =====================================
+
     const {
         data: perfil,
         error: perfilError
@@ -28,160 +77,631 @@ document.addEventListener("DOMContentLoaded", async () => {
         .eq("id", user.id)
         .single();
 
-    if (perfilError || !perfil || perfil.tipo !== "artista") {
+
+    if (
+        perfilError ||
+        !perfil ||
+        perfil.tipo !== "artista"
+    ) {
+
         window.location.href = "feed.html";
+
         return;
+
     }
 
-    // Selecionar arquivo
-    fileInput.addEventListener("change", () => {
 
-        selectedFile = fileInput.files[0];
+    // =====================================
+    // MOSTRAR PRÉVIA
+    // =====================================
 
-        if (!selectedFile) {
-            previewContainer.innerHTML =
-                "<p>A prévia aparecerá aqui.</p>";
+    function showPreview(file) {
+
+        if (!file) {
             return;
         }
 
         previewContainer.innerHTML = "";
 
-        const url = URL.createObjectURL(selectedFile);
+        const url =
+            URL.createObjectURL(file);
 
-        if (selectedFile.type.startsWith("image/")) {
 
-            const img = document.createElement("img");
+        if (file.type.startsWith("image/")) {
+
+            const img =
+                document.createElement("img");
 
             img.src = url;
+
             img.alt = "Prévia do Story";
 
             previewContainer.appendChild(img);
 
-        } else if (selectedFile.type.startsWith("video/")) {
+        }
 
-            const video = document.createElement("video");
+
+        else if (file.type.startsWith("video/")) {
+
+            const video =
+                document.createElement("video");
 
             video.src = url;
+
             video.controls = true;
+
             video.playsInline = true;
 
             previewContainer.appendChild(video);
 
         }
 
-    });
+    }
 
 
-    // Publicar Story
-    publishButton.addEventListener("click", async () => {
+    // =====================================
+    // ARQUIVO DO CELULAR
+    // =====================================
+
+    fileInput.addEventListener("change", () => {
+
+        selectedFile =
+            fileInput.files[0];
+
 
         if (!selectedFile) {
-            status.textContent =
-                "Escolha uma imagem ou vídeo primeiro.";
+
             return;
-        }
-
-        publishButton.disabled = true;
-        status.textContent = "Publicando...";
-
-
-        try {
-
-            const extensao =
-                selectedFile.name.split(".").pop();
-
-            const nomeArquivo =
-                `${user.id}/${crypto.randomUUID()}.${extensao}`;
-
-
-            // Upload para Storage
-            const {
-                error: uploadError
-            } = await supabaseClient.storage
-                .from("stories")
-                .upload(nomeArquivo, selectedFile, {
-                    contentType: selectedFile.type,
-                    upsert: false
-                });
-
-
-            if (uploadError) {
-                throw uploadError;
-            }
-
-
-            // URL pública
-            const {
-                data: publicUrlData
-            } = supabaseClient.storage
-                .from("stories")
-                .getPublicUrl(nomeArquivo);
-
-
-            const midiaUrl =
-                publicUrlData.publicUrl;
-
-
-            // Tipo da mídia
-            const tipo =
-                selectedFile.type.startsWith("video/")
-                    ? "video"
-                    : "imagem";
-
-
-            // Expira em 24 horas
-            const expiraEm =
-                new Date(
-                    Date.now() + 24 * 60 * 60 * 1000
-                ).toISOString();
-
-
-            // Salvar Story no banco
-            const {
-                error: insertError
-            } = await supabaseClient
-                .from("stories")
-                .insert({
-                    artista_id: user.id,
-                    midia_url: midiaUrl,
-                    tipo: tipo,
-                    expira_em: expiraEm
-                });
-
-
-            if (insertError) {
-                throw insertError;
-            }
-
-
-            status.textContent =
-                "Story publicado com sucesso!";
-
-
-            fileInput.value = "";
-            selectedFile = null;
-
-            previewContainer.innerHTML =
-                "<p>Story publicado.</p>";
-
-
-        } catch (error) {
-
-            console.error(
-                "ERRO AO PUBLICAR STORY:",
-                error
-            );
-
-            status.textContent =
-                "Erro ao publicar: " +
-                error.message;
-
-        } finally {
-
-            publishButton.disabled = false;
 
         }
+
+
+        showPreview(selectedFile);
+
+        status.textContent = "";
 
     });
+
+
+    // =====================================
+    // ABRIR CÂMERA
+    // =====================================
+
+    openCameraButton.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                if (!navigator.mediaDevices ||
+                    !navigator.mediaDevices.getUserMedia) {
+
+                    status.textContent =
+                        "Seu navegador não permite acesso à câmera.";
+
+                    return;
+
+                }
+
+
+                if (cameraStream) {
+
+                    cameraStream
+                        .getTracks()
+                        .forEach(track => track.stop());
+
+                }
+
+
+                cameraStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: currentCamera
+                        },
+                        audio: true
+                    });
+
+
+                cameraPreview.srcObject =
+                    cameraStream;
+
+
+                cameraPreview.style.display =
+                    "block";
+
+
+                cameraPlaceholder.style.display =
+                    "none";
+
+
+                openCameraButton.hidden =
+                    true;
+
+
+                switchCameraButton.hidden =
+                    false;
+
+
+                takePhotoButton.hidden =
+                    false;
+
+
+                startVideoButton.hidden =
+                    false;
+
+
+                status.textContent = "";
+
+
+            } catch (error) {
+
+                console.error(
+                    "ERRO AO ABRIR CÂMERA:",
+                    error
+                );
+
+
+                status.textContent =
+                    "Não foi possível acessar a câmera e o microfone.";
+
+            }
+
+        }
+    );
+
+
+    // =====================================
+    // TROCAR CÂMERA
+    // =====================================
+
+    switchCameraButton.addEventListener(
+        "click",
+        async () => {
+
+            currentCamera =
+                currentCamera === "environment"
+                    ? "user"
+                    : "environment";
+
+
+            if (cameraStream) {
+
+                cameraStream
+                    .getTracks()
+                    .forEach(track => track.stop());
+
+            }
+
+
+            try {
+
+                cameraStream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: currentCamera
+                        },
+                        audio: true
+                    });
+
+
+                cameraPreview.srcObject =
+                    cameraStream;
+
+            } catch (error) {
+
+                console.error(
+                    "ERRO AO TROCAR CÂMERA:",
+                    error
+                );
+
+                status.textContent =
+                    "Não foi possível trocar a câmera.";
+
+            }
+
+        }
+    );
+
+
+    // =====================================
+    // TIRAR FOTO
+    // =====================================
+
+    takePhotoButton.addEventListener(
+        "click",
+        () => {
+
+            if (!cameraStream) {
+                return;
+            }
+
+
+            const canvas =
+                document.createElement("canvas");
+
+
+            canvas.width =
+                cameraPreview.videoWidth;
+
+
+            canvas.height =
+                cameraPreview.videoHeight;
+
+
+            const context =
+                canvas.getContext("2d");
+
+
+            context.drawImage(
+                cameraPreview,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+
+            canvas.toBlob(
+                blob => {
+
+                    if (!blob) {
+                        return;
+                    }
+
+
+                    selectedFile =
+                        new File(
+                            [blob],
+                            `story-${Date.now()}.jpg`,
+                            {
+                                type: "image/jpeg"
+                            }
+                        );
+
+
+                    showPreview(selectedFile);
+
+
+                    status.textContent =
+                        "Foto capturada.";
+
+
+                },
+                "image/jpeg",
+                0.92
+            );
+
+        }
+    );
+
+
+    // =====================================
+    // COMEÇAR VÍDEO
+    // =====================================
+
+    startVideoButton.addEventListener(
+        "click",
+        () => {
+
+            if (!cameraStream) {
+                return;
+            }
+
+
+            recordedChunks = [];
+
+
+            let options = {};
+
+
+            if (
+                MediaRecorder.isTypeSupported(
+                    "video/webm;codecs=vp9,opus"
+                )
+            ) {
+
+                options = {
+                    mimeType:
+                        "video/webm;codecs=vp9,opus"
+                };
+
+            }
+
+
+            else if (
+                MediaRecorder.isTypeSupported(
+                    "video/webm"
+                )
+            ) {
+
+                options = {
+                    mimeType: "video/webm"
+                };
+
+            }
+
+
+            try {
+
+                mediaRecorder =
+                    new MediaRecorder(
+                        cameraStream,
+                        options
+                    );
+
+            } catch (error) {
+
+                console.error(error);
+
+                status.textContent =
+                    "Seu navegador não conseguiu iniciar a gravação.";
+
+                return;
+
+            }
+
+
+            mediaRecorder.addEventListener(
+                "dataavailable",
+                event => {
+
+                    if (event.data.size > 0) {
+
+                        recordedChunks.push(
+                            event.data
+                        );
+
+                    }
+
+                }
+            );
+
+
+            mediaRecorder.addEventListener(
+                "stop",
+                () => {
+
+                    const blob =
+                        new Blob(
+                            recordedChunks,
+                            {
+                                type:
+                                    mediaRecorder.mimeType ||
+                                    "video/webm"
+                            }
+                        );
+
+
+                    selectedFile =
+                        new File(
+                            [blob],
+                            `story-${Date.now()}.webm`,
+                            {
+                                type:
+                                    blob.type
+                            }
+                        );
+
+
+                    showPreview(selectedFile);
+
+
+                    status.textContent =
+                        "Vídeo gravado.";
+
+
+                    startVideoButton.hidden =
+                        false;
+
+
+                    stopVideoButton.hidden =
+                        true;
+
+                }
+            );
+
+
+            mediaRecorder.start();
+
+
+            startVideoButton.hidden =
+                true;
+
+
+            stopVideoButton.hidden =
+                false;
+
+
+            status.textContent =
+                "Gravando vídeo...";
+
+        }
+    );
+
+
+    // =====================================
+    // PARAR VÍDEO
+    // =====================================
+
+    stopVideoButton.addEventListener(
+        "click",
+        () => {
+
+            if (
+                mediaRecorder &&
+                mediaRecorder.state === "recording"
+            ) {
+
+                mediaRecorder.stop();
+
+            }
+
+        }
+    );
+
+
+    // =====================================
+    // PUBLICAR STORY
+    // =====================================
+
+    publishButton.addEventListener(
+        "click",
+        async () => {
+
+            if (!selectedFile) {
+
+                status.textContent =
+                    "Escolha uma mídia ou faça uma foto/vídeo.";
+
+                return;
+
+            }
+
+
+            publishButton.disabled =
+                true;
+
+
+            status.textContent =
+                "Publicando...";
+
+
+            try {
+
+                const extensao =
+                    selectedFile.name
+                        .split(".")
+                        .pop();
+
+
+                const nomeArquivo =
+                    `${user.id}/${crypto.randomUUID()}.${extensao}`;
+
+
+                // UPLOAD
+                const {
+                    error: uploadError
+                } = await supabaseClient
+                    .storage
+                    .from("stories")
+                    .upload(
+                        nomeArquivo,
+                        selectedFile,
+                        {
+                            contentType:
+                                selectedFile.type,
+                            upsert: false
+                        }
+                    );
+
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+
+                // URL PÚBLICA
+                const {
+                    data: publicUrlData
+                } = supabaseClient
+                    .storage
+                    .from("stories")
+                    .getPublicUrl(
+                        nomeArquivo
+                    );
+
+
+                const midiaUrl =
+                    publicUrlData.publicUrl;
+
+
+                // TIPO
+                const tipo =
+                    selectedFile.type
+                        .startsWith("video/")
+                        ? "video"
+                        : "imagem";
+
+
+                // EXPIRA EM 24 HORAS
+                const expiraEm =
+                    new Date(
+                        Date.now() +
+                        24 * 60 * 60 * 1000
+                    ).toISOString();
+
+
+                // BANCO
+                const {
+                    error: insertError
+                } = await supabaseClient
+                    .from("stories")
+                    .insert({
+                        artista_id: user.id,
+                        midia_url: midiaUrl,
+                        tipo: tipo,
+                        expira_em: expiraEm
+                    });
+
+
+                if (insertError) {
+                    throw insertError;
+                }
+
+
+                status.textContent =
+                    "Story publicado com sucesso!";
+
+
+                fileInput.value = "";
+
+                selectedFile = null;
+
+
+                previewContainer.innerHTML =
+                    "<p>Story publicado.</p>";
+
+
+            } catch (error) {
+
+                console.error(
+                    "ERRO AO PUBLICAR STORY:",
+                    error
+                );
+
+
+                status.textContent =
+                    "Erro ao publicar: " +
+                    error.message;
+
+            } finally {
+
+                publishButton.disabled =
+                    false;
+
+            }
+
+        }
+    );
+
+
+    // =====================================
+    // LIMPAR CÂMERA AO SAIR
+    // =====================================
+
+    window.addEventListener(
+        "beforeunload",
+        () => {
+
+            if (cameraStream) {
+
+                cameraStream
+                    .getTracks()
+                    .forEach(track => track.stop());
+
+            }
+
+        }
+    );
 
 });
