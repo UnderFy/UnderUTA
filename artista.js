@@ -292,35 +292,34 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
-        audio.addEventListener(
-            "play",
-            () => {
-
-                playButton.textContent = "⏸";
-
-            }
-        );
-
-
-        audio.addEventListener(
-            "pause",
-            () => {
-
-                playButton.textContent = "▶";
-
-            }
-        );
+        audio.addEventListener("pause", () => {
+    playButton.innerHTML = `
+        <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z"></path>
+        </svg>
+    `;
+});
 
 
-        audio.addEventListener(
-            "ended",
-            () => {
+        audio.addEventListener("play", () => {
+    playButton.innerHTML = `
+        <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+            <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+        </svg>
+    `;
+});
 
-                playButton.textContent = "▶";
-                progress.value = 0;
 
-            }
-        );
+        audio.addEventListener("ended", () => {
+    playButton.innerHTML = `
+        <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z"></path>
+        </svg>
+    `;
+
+    progress.value = 0;
+});
 
 
         progress.addEventListener(
