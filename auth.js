@@ -77,11 +77,11 @@ async function iniciarLogin() {
 
             if (perfil.tipo === "artista") {
 
-                window.location.href = "artista.html";
+    window.location.href = "artista.html";
 
-            } else {
+} else {
 
-                window.location.href = "feed.html";
+    window.location.href = "ouvinte.html";
 
             }
 
