@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>UnderUTA — Ouvinte</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================================
+           UNDERUTA — ÁREA DO OUVINTE
+        ========================================= */
+
+        .listener-page {
+            min-height: 100vh;
+            background: #080808;
+            color: #fff;
+        }
+
+        .listener-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            background: rgba(8, 8, 8, 0.94);
+            border-bottom: 1px solid #222;
+            backdrop-filter: blur(12px);
+        }
+
+        .listener-header-inner {
+            width: 100%;
+            max-width: 1200px;
+            min-height: 72px;
+            margin: 0 auto;
+            padding: 0 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        .listener-logo {
+            color: #fff;
+            text-decoration: none;
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+        }
+
+        .listener-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .listener-nav button {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #292929;
+            border-radius: 50%;
+            background: #151515;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .listener-nav button:hover {
+            background: #222;
+        }
+
+        .listener-main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 24px 100px;
+            box-sizing: border-box;
+        }
+
+        .listener-welcome {
+            margin-bottom: 36px;
+        }
+
+        .listener-welcome h1 {
+            margin: 0;
+            font-size: 38px;
+            line-height: 1.1;
+            letter-spacing: -1.2px;
+        }
+
+        .listener-welcome p {
+            margin: 10px 0 0;
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* STORIES */
+
+        .listener-section {
+            margin-bottom: 46px;
+        }
+
+        .listener-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .listener-section-header h2 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .listener-section-header a {
+            color: #888;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .listener-section-header a:hover {
+            color: #fff;
+        }
+
+        .listener-stories {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            padding: 4px 2px 12px;
+            scrollbar-width: none;
+        }
+
+        .listener-stories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .listener-story {
+            flex: 0 0 auto;
+            width: 76px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+
+            cursor: pointer;
+        }
+
+        .listener-story-avatar {
+            width: 68px;
+            height: 68px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: #181818;
+            border: 2px solid #fff;
+            overflow: hidden;
+        }
+
+        .listener-story-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .listener-story-avatar span {
+            color: #777;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .listener-story-name {
+            width: 100%;
+            overflow: hidden;
+            color: #aaa;
+            font-size: 12px;
+            text-align: center;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* MÚSICAS */
+
+        .listener-music-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .listener-music-card {
+            min-width: 0;
+            padding: 14px;
+
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 14px;
+
+            cursor: pointer;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .listener-music-card:hover {
+            transform: translateY(-3px);
+            background: #151515;
+            border-color: #383838;
+        }
+
+        .listener-music-cover {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            margin-bottom: 14px;
+
+            border-radius: 10px;
+            background: #1b1b1b;
+            overflow: hidden;
+        }
+
+        .listener-music-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .listener-music-card h3 {
+            margin: 0;
+
+            overflow: hidden;
+            font-size: 15px;
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .listener-music-card p {
+            margin: 6px 0 0;
+
+            overflow: hidden;
+            color: #777;
+            font-size: 13px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* ARTISTAS */
+
+        .listener-artists {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .listener-artist-card {
+            padding: 20px 14px;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 14px;
+            text-align: center;
+        }
+
+        .listener-artist-avatar {
+            width: 82px;
+            height: 82px;
+            margin: 0 auto 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .listener-artist-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .listener-artist-avatar span {
+            color: #777;
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .listener-artist-card h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .listener-artist-card p {
+            margin: 6px 0 0;
+            color: #666;
+            font-size: 12px;
+        }
+
+        /* TEXTOS */
+
+        .listener-texts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .listener-text-card {
+            padding: 22px;
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 14px;
+        }
+
+        .listener-text-card h3 {
+            margin: 0 0 10px;
+            font-size: 17px;
+        }
+
+        .listener-text-card p {
+            margin: 0;
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* PLAYER */
+
+        .listener-player {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            left: 20px;
+            z-index: 200;
+
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 12px 16px;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            background: rgba(18, 18, 18, 0.96);
+            border: 1px solid #292929;
+            border-radius: 14px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(14px);
+        }
+
+        .listener-player-cover {
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+
+            border-radius: 8px;
+            background: #222;
+            overflow: hidden;
+        }
+
+        .listener-player-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .listener-player-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .listener-player-info strong {
+            display: block;
+            overflow: hidden;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .listener-player-info span {
+            display: block;
+            margin-top: 4px;
+            overflow: hidden;
+            color: #777;
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .listener-player audio {
+            width: 260px;
+            max-width: 42%;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 850px) {
+            .listener-music-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .listener-artists {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            .listener-player audio {
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .listener-header-inner {
+                min-height: 64px;
+                padding: 0 16px;
+            }
+
+            .listener-logo {
+                font-size: 22px;
+            }
+
+            .listener-main {
+                padding: 30px 16px 110px;
+            }
+
+            .listener-welcome h1 {
+                font-size: 31px;
+            }
+
+            .listener-stories {
+                gap: 14px;
+            }
+
+            .listener-story {
+                width: 68px;
+            }
+
+            .listener-story-avatar {
+                width: 62px;
+                height: 62px;
+            }
+
+            .listener-music-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .listener-music-card {
+                padding: 10px;
+            }
+
+            .listener-artists {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .listener-texts {
+                grid-template-columns: 1fr;
+            }
+
+            .listener-player {
+                right: 10px;
+                bottom: 10px;
+                left: 10px;
+                padding: 10px;
+            }
+
+            .listener-player audio {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="listener-page">
+
+    <!-- CABEÇALHO -->
+    <header class="listener-header">
+        <div class="listener-header-inner">
+
+            <a href="ouvinte.html" class="listener-logo">
+                UnderUTA
+            </a>
+
+            <nav class="listener-nav">
+                <button type="button" aria-label="Pesquisar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="M16 16L21 21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </button>
+
+                <button type="button" aria-label="Perfil">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/>
+                        <path d="M5 20C5.8 16.5 8.1 14.5 12 14.5C15.9 14.5 18.2 16.5 19 20"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </nav>
+
+        </div>
+    </header>
+
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="listener-main">
+
+        <section class="listener-welcome">
+            <h1>Olá, ouvinte.</h1>
+            <p>Descubra novos artistas, músicas e histórias no UnderUTA.</p>
+        </section>
+
+
+        <!-- STORIES -->
+        <section class="listener-section">
+
+            <div class="listener-section-header">
+                <h2>Stories</h2>
+                <a href="#">Ver todos</a>
+            </div>
+
+            <div class="listener-stories" id="listener-stories">
+
+                <div class="listener-story">
+                    <div class="listener-story-avatar">
+                        <span>U</span>
+                    </div>
+                    <div class="listener-story-name">
+                        UnderUTA
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MÚSICAS -->
+        <section class="listener-section">
+
+            <div class="listener-section-header">
+                <h2>Músicas recentes</h2>
+                <a href="#">Ver todas</a>
+            </div>
+
+            <div class="listener-music-grid" id="listener-music">
+
+                <article class="listener-music-card">
+                    <div class="listener-music-cover"></div>
+
+                    <h3>Nenhuma música ainda</h3>
+                    <p>As novidades aparecerão aqui.</p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- ARTISTAS -->
+        <section class="listener-section">
+
+            <div class="listener-section-header">
+                <h2>Artistas</h2>
+                <a href="#">Explorar</a>
+            </div>
+
+            <div class="listener-artists" id="listener-artists">
+
+                <article class="listener-artist-card">
+
+                    <div class="listener-artist-avatar">
+                        <span>U</span>
+                    </div>
+
+                    <h3>Artistas do UnderUTA</h3>
+                    <p>Descubra novos nomes</p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- TEXTOS -->
+        <section class="listener-section">
+
+            <div class="listener-section-header">
+                <h2>Textos recentes</h2>
+                <a href="#">Ver todos</a>
+            </div>
+
+            <div class="listener-texts" id="listener-texts">
+
+                <article class="listener-text-card">
+                    <h3>Conteúdo dos artistas</h3>
+                    <p>
+                        Textos, pensamentos e histórias publicados
+                        pelos artistas aparecerão aqui.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- PLAYER -->
+    <div class="listener-player" id="listener-player">
+
+        <div class="listener-player-cover">
+            <img id="player-cover" src="" alt="">
+        </div>
+
+        <div class="listener-player-info">
+            <strong id="player-title">Nenhuma música selecionada</strong>
+            <span id="player-artist">UnderUTA</span>
+        </div>
+
+        <audio id="listener-audio" controls preload="none"></audio>
+
+    </div>
+
+</div>
+
+</body>
+</html>
