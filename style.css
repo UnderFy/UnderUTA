@@ -2074,3 +2074,199 @@ button {
     }
 
 }
+
+/* =========================================
+   PUBLICAR TEXTO
+========================================= */
+
+.create-story {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 90px 24px 120px;
+}
+
+.create-story .story-header {
+    margin-bottom: 55px;
+}
+
+.create-story .story-header .section-label {
+    display: block;
+    margin-bottom: 24px;
+}
+
+.create-story .story-header h1 {
+    margin: 0;
+    font-size: clamp(48px, 8vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    font-weight: 500;
+}
+
+.create-story .story-header p {
+    max-width: 600px;
+    margin: 30px 0 0;
+    color: #888;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   FORMULÁRIO
+========================================= */
+
+.create-story .story-form {
+    width: 100%;
+    padding: 40px;
+    border: 1px solid #292929;
+    border-radius: 20px;
+    background: #0d0d0d;
+}
+
+.create-story .story-form label {
+    display: block;
+    margin-bottom: 12px;
+    color: #aaa;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+}
+
+.create-story .story-form input,
+.create-story .story-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #303030;
+    border-radius: 12px;
+    outline: none;
+    background: #151515;
+    color: #fff;
+    font-family: inherit;
+    font-size: 17px;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.create-story .story-form input {
+    height: 58px;
+    padding: 0 18px;
+    margin-bottom: 30px;
+}
+
+.create-story .story-form textarea {
+    min-height: 260px;
+    padding: 18px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.create-story .story-form input::placeholder,
+.create-story .story-form textarea::placeholder {
+    color: #555;
+}
+
+.create-story .story-form input:focus,
+.create-story .story-form textarea:focus {
+    border-color: #666;
+    background: #181818;
+}
+
+
+/* =========================================
+   BOTÃO PUBLICAR
+========================================= */
+
+#create-story,
+#publish-texto {
+    margin-top: 24px;
+}
+
+#publish-texto {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    padding: 0 28px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    background: #fff;
+    color: #000;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+#publish-texto:hover {
+    background: #ddd;
+}
+
+#publish-texto:active {
+    transform: scale(0.98);
+}
+
+#publish-texto:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+#texto-status {
+    min-height: 22px;
+    margin: 18px 0 0;
+    color: #888;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .create-story {
+        padding: 65px 20px 90px;
+    }
+
+    .create-story .story-header {
+        margin-bottom: 38px;
+    }
+
+    .create-story .story-header h1 {
+        font-size: 52px;
+    }
+
+    .create-story .story-header p {
+        margin-top: 22px;
+        font-size: 16px;
+    }
+
+    .create-story .story-form {
+        padding: 24px;
+        border-radius: 16px;
+    }
+
+    .create-story .story-form input {
+        height: 54px;
+    }
+
+    .create-story .story-form textarea {
+        min-height: 220px;
+    }
+
+    #publish-texto {
+        width: 100%;
+    }
+
+}
