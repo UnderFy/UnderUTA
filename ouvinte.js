@@ -25,7 +25,7 @@ async function iniciarAreaDoOuvinte() {
         if (perfilError) throw perfilError;
 
         if (!perfil) {
-    window.location.href = "login.html";
+    window.location.href = "ouvinte.html";
     return;
 }
 
