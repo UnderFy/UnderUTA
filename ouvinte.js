@@ -24,12 +24,12 @@ async function iniciarAreaDoOuvinte() {
 
         if (perfilError) throw perfilError;
 
-        if (perfil.tipo !== "ouvinte") {
-            window.location.href = "artista.html";
-            return;
-        }
+        if (!perfil) {
+    window.location.href = "login.html";
+    return;
+}
 
-        configurarSaudacao(perfil);
+configurarSaudacao(perfil);
 carregarMusicas();
 carregarStories();
 configurarPlayer();
