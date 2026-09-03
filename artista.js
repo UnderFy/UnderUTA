@@ -122,58 +122,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 <div class="under-player">
 
-                    <audio
-                        class="under-audio"
-                        src="${musica.audio_url}"
-                        preload="metadata">
-                    </audio>
+                    <div class="under-player">
 
-                    <button
-                        class="under-play"
-                        type="button"
-                        aria-label="Reproduzir">
-                        ▶
-                    </button>
+    <audio
+        class="under-audio"
+        src="${musica.audio_url}"
+        preload="metadata">
+    </audio>
 
-                    <div class="under-player-main">
+    <button
+        class="under-play"
+        type="button"
+        aria-label="Reproduzir">
+        <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 5.5v13l10-6.5z"></path>
+        </svg>
+    </button>
 
-                        <div class="under-progress-area">
+    <div class="under-player-main">
 
-                            <span class="under-current">
-                                0:00
-                            </span>
+        <div class="under-progress-area">
 
-                            <input
-                                class="under-progress"
-                                type="range"
-                                min="0"
-                                max="100"
-                                value="0"
-                                step="0.1"
-                            >
+            <span class="under-current">0:00</span>
 
-                            <span class="under-duration">
-                                0:00
-                            </span>
+            <input
+                class="under-progress"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+                step="0.1"
+                aria-label="Progresso">
 
-                        </div>
+            <span class="under-duration">0:00</span>
 
-                        <div class="under-volume-area">
+        </div>
 
-                            <span class="under-volume-icon">
-                                🔊
-                            </span>
+        <div class="under-volume-area">
 
-                            <input
-                                class="under-volume"
-                                type="range"
-                                min="0"
-                                max="1"
-                                value="1"
-                                step="0.01"
-                            >
+            <button
+                class="under-volume-button"
+                type="button"
+                aria-label="Volume">
 
-                        </div>
+                <svg
+                    class="volume-icon"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+                    <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
+                    <path d="M16 8.5a5 5 0 0 1 0 7"></path>
+                    <path d="M18.5 6a8.5 8.5 0 0 1 0 12"></path>
+                </svg>
+
+            </button>
+
+            <input
+                class="under-volume"
+                type="range"
+                min="0"
+                max="1"
+                value="1"
+                step="0.01"
+                aria-label="Volume">
 
                     </div>
 
