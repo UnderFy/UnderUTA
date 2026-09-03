@@ -1,1 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>UnderUTA — Publicar texto</title>
+
+    <link rel="stylesheet" href="style.css?v=5">
+</head>
+
+<body>
+
+<header class="artist-header">
+
+    <div class="artist-logo">
+        UnderUTA
+    </div>
+
+    <a href="artista.html" id="back-btn">
+        Voltar
+    </a>
+
+</header>
+
+
+<main class="create-story">
+
+    <section class="story-header">
+
+        <span class="section-label">
+            NOVA PUBLICAÇÃO
+        </span>
+
+        <h1>
+            Compartilhe<br>
+            suas ideias.
+        </h1>
+
+        <p>
+            Publique um texto para seus ouvintes.
+        </p>
+
+    </section>
+
+
+    <section class="story-form">
+
+        <label for="texto-titulo">
+            Título
+        </label>
+
+        <input
+            type="text"
+            id="texto-titulo"
+            placeholder="Digite o título"
+            maxlength="120"
+        >
+
+
+        <label for="texto-conteudo">
+            Texto
+        </label>
+
+        <textarea
+            id="texto-conteudo"
+            placeholder="Escreva aqui..."
+            maxlength="5000"
+        ></textarea>
+
+
+        <button
+            id="publish-texto"
+            type="button"
+        >
+            Publicar texto
+        </button>
+
+
+        <p
+            id="texto-status"
+            class="story-status"
+        ></p>
+
+    </section>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js?v=2"></script>
+
+<script src="publicar-texto.js?v=1"></script>
+
+</body>
+
+</html>
