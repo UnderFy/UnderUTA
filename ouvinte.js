@@ -30,8 +30,9 @@ async function iniciarAreaDoOuvinte() {
         }
 
         configurarSaudacao(perfil);
-        carregarMusicas();
-        configurarPlayer();
+carregarMusicas();
+carregarStories();
+configurarPlayer();
 
     } catch (error) {
         console.error("Erro ao iniciar área do ouvinte:", error);
