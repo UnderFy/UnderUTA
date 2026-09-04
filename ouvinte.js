@@ -29,9 +29,10 @@ async function iniciarAreaDoOuvinte() {
     return;
 }
 
-configurarSaudacao(perfil);
+cconfigurarSaudacao(perfil);
 carregarMusicas();
 carregarStories();
+carregarArtistas();
 configurarPlayer();
 
     } catch (error) {
@@ -132,6 +133,60 @@ async function carregarMusicas() {
     });
 }
 
+
+/* =========================================
+   ARTISTAS
+========================================= */
+
+async function carregarArtistas() {
+    const container = document.querySelector("#listener-artists");
+
+    if (!container) return;
+
+    const { data: artistas, error } = await supabaseClient
+        .from("artistas")
+        .select(`
+            id,
+            nome_artistico
+        `)
+        .order("nome_artistico", { ascending: true });
+
+    if (error) {
+        console.error("Erro ao carregar artistas:", error);
+        return;
+    }
+
+    container.innerHTML = "";
+
+    if (!artistas || artistas.length === 0) {
+        container.innerHTML = `
+            <div class="listener-artist-card">
+                <h3>Nenhum artista ainda</h3>
+                <p>Os artistas aparecerão aqui.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    artistas.forEach((artista) => {
+        const card = document.createElement("article");
+
+        card.className = "listener-artist-card";
+
+        const nome = artista.nome_artistico || "Artista";
+
+        card.innerHTML = `
+            <div class="listener-artist-avatar">
+                <span>${escaparHTML(nome.charAt(0).toUpperCase())}</span>
+            </div>
+
+            <h3>${escaparHTML(nome)}</h3>
+        `;
+
+        container.appendChild(card);
+    });
+}
 
 /* =========================================
    PLAYER
