@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    alert("ouvinte.js carregou");
     iniciarAreaDoOuvinte();
 });
 
