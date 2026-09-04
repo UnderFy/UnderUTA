@@ -288,15 +288,146 @@ async function carregarStories() {
    VISUALIZAÇÃO DO STORY
 ========================================= */
 
+let storiesAtuais = [];
+let storyAtualIndex = 0;
+
 function abrirStory(stories) {
     if (!stories || stories.length === 0) return;
 
-    const story = stories[0];
+    storiesAtuais = stories;
+    storyAtualIndex = 0;
 
-    if (story.tipo === "video") {
-        window.open(story.midia_url, "_blank");
-        return;
+    const viewer = document.querySelector("#story-viewer");
+
+    if (!viewer) return;
+
+    viewer.hidden = false;
+
+    mostrarStoryAtual();
+}
+
+function mostrarStoryAtual() {
+    if (!storiesAtuais.length) return;
+
+    const story = storiesAtuais[storyAtualIndex];
+
+    const mediaContainer = document.querySelector(
+        "#story-viewer-media-container"
+    );
+
+    const nomeElement = document.querySelector("#story-viewer-name");
+    const timeElement = document.querySelector("#story-viewer-time");
+    const avatarElement = document.querySelector("#story-viewer-avatar");
+    const progressElement = document.querySelector("#story-viewer-progress");
+
+    if (!mediaContainer) return;
+
+    const artista = story.artistas;
+    const nome = artista?.nome_artistico || "Artista";
+
+    nomeElement.textContent = nome;
+
+    avatarElement.textContent =
+        nome.charAt(0).toUpperCase();
+
+    if (story.criado_em) {
+        const data = new Date(story.criado_em);
+
+        timeElement.textContent =
+            data.toLocaleDateString("pt-BR");
+    } else {
+        timeElement.textContent = "";
     }
 
-    window.open(story.midia_url, "_blank");
+    mediaContainer.innerHTML = "";
+
+    if (story.tipo === "video") {
+        const video = document.createElement("video");
+
+        video.src = story.midia_url;
+        video.controls = true;
+        video.autoplay = true;
+        video.playsInline = true;
+
+        mediaContainer.appendChild(video);
+    } else {
+        const imagem = document.createElement("img");
+
+        imagem.src = story.midia_url;
+        imagem.alt = `Story de ${nome}`;
+
+        mediaContainer.appendChild(imagem);
+    }
+
+    atualizarProgresso();
+    atualizarBotoes();
+}
+
+function atualizarProgresso() {
+    const progressElement = document.querySelector(
+        "#story-viewer-progress"
+    );
+
+    if (!progressElement) return;
+
+    progressElement.innerHTML = "";
+
+    storiesAtuais.forEach((_, index) => {
+        const barra = document.createElement("span");
+
+        if (index === storyAtualIndex) {
+            barra.classList.add("active");
+        }
+
+        progressElement.appendChild(barra);
+    });
+}
+
+function atualizarBotoes() {
+    const anterior = document.querySelector("#story-viewer-prev");
+    const proximo = document.querySelector("#story-viewer-next");
+
+    if (anterior) {
+        anterior.hidden = storyAtualIndex === 0;
+    }
+
+    if (proximo) {
+        proximo.hidden =
+            storyAtualIndex === storiesAtuais.length - 1;
+    }
+}
+
+function fecharStory() {
+    const viewer = document.querySelector("#story-viewer");
+
+    if (!viewer) return;
+
+    const mediaContainer = document.querySelector(
+        "#story-viewer-media-container"
+    );
+
+    if (mediaContainer) {
+        mediaContainer.innerHTML = "";
+    }
+
+    viewer.hidden = true;
+
+    storiesAtuais = [];
+    storyAtualIndex = 0;
+}
+
+function storyAnterior() {
+    if (storyAtualIndex <= 0) return;
+
+    storyAtualIndex--;
+
+    mostrarStoryAtual();
+}
+
+function proximoStory() {
+    if (storyAtualIndex >= storiesAtuais.length - 1) return;
+
+    storyAtualIndex++;
+
+    mostrarStoryAtual();
 }
