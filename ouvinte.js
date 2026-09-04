@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function iniciarAreaDoOuvinte() {
+    alert("iniciarAreaDoOuvinte começou");
     try {
         const {
             data: { user },
