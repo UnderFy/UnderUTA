@@ -29,7 +29,7 @@ async function iniciarAreaDoOuvinte() {
     return;
 }
 
-cconfigurarSaudacao(perfil);
+configurarSaudacao(perfil);
 carregarMusicas();
 carregarStories();
 carregarArtistas();
