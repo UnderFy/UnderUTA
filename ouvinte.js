@@ -4,7 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 async function iniciarAreaDoOuvinte() {
-    alert("iniciarAreaDoOuvinte começou");
+    document.body.insertAdjacentHTML(
+        "afterbegin",
+        '<div style="position:fixed;top:0;left:0;right:0;z-index:99999;padding:20px;background:#fff;color:#000;text-align:center;font-size:18px;">iniciarAreaDoOuvinte começou</div>'
+    );
     try {
         const {
             data: { user },
