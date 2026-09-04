@@ -639,8 +639,54 @@
 
     </div>
 
-</div>
+<div id="story-viewer" class="story-viewer" hidden>
+    <div class="story-viewer-backdrop"></div>
 
+    <div class="story-viewer-content">
+
+        <div class="story-viewer-header">
+            <div class="story-viewer-artist">
+                <div id="story-viewer-avatar" class="story-viewer-avatar"></div>
+
+                <div>
+                    <strong id="story-viewer-name">Artista</strong>
+                    <span id="story-viewer-time"></span>
+                </div>
+            </div>
+
+            <button
+                type="button"
+                id="story-viewer-close"
+                class="story-viewer-close"
+                aria-label="Fechar Story">
+                ×
+            </button>
+        </div>
+
+        <div class="story-viewer-media">
+            <button
+                type="button"
+                id="story-viewer-prev"
+                class="story-viewer-nav story-viewer-prev"
+                aria-label="Story anterior">
+                ‹
+            </button>
+
+            <div id="story-viewer-media-container"></div>
+
+            <button
+                type="button"
+                id="story-viewer-next"
+                class="story-viewer-nav story-viewer-next"
+                aria-label="Próximo Story">
+                ›
+            </button>
+        </div>
+
+        <div class="story-viewer-progress" id="story-viewer-progress"></div>
+
+</div>
+    
     <script src="supabase.js"></script>
 <script src="ouvinte.js"></script>
 
