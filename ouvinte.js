@@ -431,3 +431,31 @@ function proximoStory() {
 
     mostrarStoryAtual();
 }
+
+function configurarVisualizadorStory() {
+    const fechar = document.querySelector("#story-viewer-close");
+    const anterior = document.querySelector("#story-viewer-prev");
+    const proximo = document.querySelector("#story-viewer-next");
+    const backdrop = document.querySelector(".story-viewer-backdrop");
+
+    if (fechar) {
+        fechar.addEventListener("click", fecharStory);
+    }
+
+    if (anterior) {
+        anterior.addEventListener("click", storyAnterior);
+    }
+
+    if (proximo) {
+        proximo.addEventListener("click", proximoStory);
+    }
+
+    if (backdrop) {
+        backdrop.addEventListener("click", fecharStory);
+    }
+}
+
+document.addEventListener(
+    "DOMContentLoaded",
+    configurarVisualizadorStory
+);
