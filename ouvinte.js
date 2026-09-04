@@ -84,8 +84,16 @@ async function carregarMusicas() {
         .order("criado_em", { ascending: false });
 
     if (error) {
-        console.error("Erro ao carregar músicas:", error);
-        return;
+    console.error("Erro ao carregar músicas:", error);
+
+    container.innerHTML = `
+        <article class="listener-music-card">
+            <h3>Erro ao carregar músicas</h3>
+            <p>${escaparHTML(error.message || "Erro desconhecido")}</p>
+        </article>
+    `;
+
+    return;
     }
 
     container.innerHTML = "";
