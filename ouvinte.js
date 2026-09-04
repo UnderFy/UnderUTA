@@ -65,6 +65,8 @@ function configurarSaudacao(perfil) {
 ========================================= */
 
 async function carregarMusicas() {
+    alert("carregarMusicas foi executada");
+    
     const container = document.querySelector("#listener-music");
 
     if (!container) return;
