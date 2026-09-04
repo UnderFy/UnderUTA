@@ -513,4 +513,4 @@ function configurarVisualizadorStory() {
 document.addEventListener(
     "DOMContentLoaded",
     configurarVisualizadorStory
-);
+)
